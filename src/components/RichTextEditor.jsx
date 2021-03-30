@@ -1,57 +1,10 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { createEditor, Transforms, Text, Editor } from 'slate';
+import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
-
-class EditorTools {
-  markCheck(editor, mark) {
-    const [match] = Editor.nodes(editor,{
-      match: n => {
-        switch (mark) {
-          case 'bold':
-            return n.bold === true;
-          case 'italic':
-            return n.italic === true;
-          case 'underline':
-            return n.underline === true;
-          case 'sub':
-            return n.sub === true;
-          case 'sup':
-            return n.sup === true;
-          default:
-            return false;
-        }
-      },
-    });
-    // !!undefined => false
-    return !!match
-  };
-
-  blockCheck(editor, type) {
-    const [match] = Editor.nodes(editor, {
-      match: n => n.type === type
-    });
-    return !!match
-  }
-
-  toggleBlock(editor, type) {
-    const isActive = this.blockCheck(editor, type);
-    Transforms.setNodes(
-      editor,
-      { type: isActive ? null : type},
-      { match: n => Editor.isBlock(editor, n)}
-    );
-  };
-
-  toggleMark(editor, mark) {
-    const isActive = this.markCheck(editor, mark);
-    Transforms.setNodes(
-      editor,
-      { [mark]: isActive ? null : true},
-      { match: n => Text.isText(n), split: 'true'}
-    )
-  };
-};
+import Element from './Element';
+import Leaf from './Leaf';
+import EditorTools from './editor-tools/EditorTools';
 
 const editorTools = new EditorTools()
 
@@ -93,46 +46,28 @@ const RichTextEditor = () => {
       <button onMouseDown={() => editorTools.toggleBlock(editor, 'h1')}>
         H1
       </button>
+      <button onMouseDown={() => editorTools.toggleBlock(editor, 'h2')}>
+        H2
+      </button>
+      <button onMouseDown={() => editorTools.toggleBlock(editor, 'h3')}>
+        H3
+      </button>
+      <button onMouseDown={() => editorTools.toggleBlock(editor, 'left')}>
+        left
+      </button>
+      <button onMouseDown={() => editorTools.toggleBlock(editor, 'center')}>
+        center
+      </button>
+      <button onMouseDown={() => editorTools.toggleBlock(editor, 'right')}>
+        right
+      </button>
+      <button onMouseDown={() => editorTools.toggleBlock(editor, 'justify')}>
+        justify
+      </button>
       <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
     </Slate>
   );
 }
 
-
-// Element Render
-
-const Element = (props) => {
-  const { attributes, element, children } = props;
-  switch (element.type) {
-    case 'h1':
-      return <h1 {...attributes}>{children}</h1>
-    default:
-      return <DefaultElement {...props} />;
-  }
-}
-
-const DefaultElement = (props) => {
-  return <p {...props.attributes}>{props.children}</p>
-};
-
-const Leaf = (props) => {
-  let { attributes, children, leaf } = props;
-  if (leaf.bold) {
-    children = <strong>{children}</strong>
-  }
-  if (leaf.italic) {
-    children = <i>{children}</i>
-  }
-  if (leaf.underline) {
-    children = <u>{children}</u>
-  }
-  if (leaf.sub) {
-    children = <sub>{children}</sub>
-  }
-  if (leaf.sup) {
-    children = <sup>{children}</sup>
-  }
-  return <span {...attributes}>{children}</span>
-}
 
 export default RichTextEditor
