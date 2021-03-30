@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Leaf = (props) => {
   let { attributes, children, leaf } = props;
@@ -18,6 +19,12 @@ const Leaf = (props) => {
     children = <sup>{children}</sup>
   }
   return <span {...attributes}>{children}</span>
+}
+
+Leaf.propTypes = {
+  leaf: PropTypes.object,
+  children: PropTypes.any,
+  attributes: PropTypes.any
 }
 
 export default Leaf;

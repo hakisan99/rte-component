@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Element Render
 const Element = (props) => {
@@ -29,12 +30,14 @@ const Element = (props) => {
     case 'justify':
       return <p {...attributes} style={{textAlign: 'justify'}}>{children}</p>
     default:
-      return <DefaultElement {...props} />;
+      return <p style={{textAlign: 'left'}} {...attributes}>{children}</p>
   }
 };
 
-const DefaultElement = (props) => {
-  return <p style={{textAlign: 'left'}} {...props.attributes}>{props.children}</p>;
-};
+Element.propTypes = {
+  element: PropTypes.object,
+  children: PropTypes.any,
+  attributes: PropTypes.any
+}
 
 export default Element;

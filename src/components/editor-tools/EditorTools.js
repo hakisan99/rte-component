@@ -22,7 +22,7 @@ class EditorTools {
     });
     // !!undefined => false
     return !!match
-  };
+  }
 
   blockCheck(editor, type) {
     const [match] = Editor.nodes(editor, {
@@ -38,7 +38,7 @@ class EditorTools {
       { type: isActive ? null : type},
       { match: n => Editor.isBlock(editor, n)}
     );
-  };
+  }
 
   toggleMark(editor, mark) {
     const isActive = this.markCheck(editor, mark);
@@ -47,7 +47,7 @@ class EditorTools {
       { [mark]: isActive ? null : true},
       { match: n => Text.isText(n), split: 'true'}
     )
-  };
-};
+  }
+}
 
 export default EditorTools
