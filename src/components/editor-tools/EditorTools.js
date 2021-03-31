@@ -56,7 +56,7 @@ class EditorTools {
         children: colArr.map(() => {
           return {
             type: 'table-cell',
-            children: [{ text: '' }],
+            children: [{ type: 'paragraph', children: [{text:''}] }],
           };
         }),
       };
@@ -78,12 +78,11 @@ class EditorTools {
     e.preventDefault();
     //const isActive = this.alignCheck(editor, alignment);
     const [match] = Editor.nodes(editor, {
-      match: (n) => Editor.isBlock(editor, n),
+      match: (n) => n.alignment === alignment,
     });
-    console.log(match[0].type);
     Transforms.setNodes(
       editor,
-      { type: match[0].type, alignment: alignment },
+      { alignment: match ? null : alignment },
       { match: (n) => Editor.isBlock(editor, n) }
     );
   }
