@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
@@ -92,9 +93,6 @@ const RichTextEditor = () => {
       ],
     },
   ]);
-  useEffect(() => {
-    console.log(editor.children)
-  })
   const renderElement = useCallback((props) => {
     return <Element {...props} />;
   }, []);
@@ -152,6 +150,26 @@ const RichTextEditor = () => {
             }}
           >
             Insert Column
+          </StyledButton>
+          <StyledButton
+            onMouseDown={(e) => {
+              editorTools.removeRow(
+                e,
+                editor,
+              );
+            }}
+          >
+            Remove Row
+          </StyledButton>
+          <StyledButton
+            onMouseDown={(e) => {
+              editorTools.removeColumn(
+                e,
+                editor,
+              );
+            }}
+          >
+            Remove Column
           </StyledButton>
         </StyledToolbar>
         <StyledBody>

@@ -25,9 +25,9 @@ export const StyledContainer = styled.div`
   border: 1px solid ${props => props.theme.color.border.primary};
 `
 export const StyledTable = styled.table`
-    border: '1px red solid'; 
-    border-collapse: 'collapse'; 
-    width:"100%";
+    border: 1px red solid; 
+    border-collapse: collapse; 
+    width: 100%;
 `
 export const TableCell = styled.div`
   width: 20px;
