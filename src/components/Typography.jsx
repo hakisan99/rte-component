@@ -8,6 +8,7 @@ const generalStyle = props => `
     line-height: 1.2;
     color: ${props.theme.color.text[props.color] || props.theme.color.text.primary};
     text-align: ${props.textAlign || "left"};
+    margin-left: ${props.indentation ? props.indentation * 2 < 0 ? 0 : props.indentation * 2 : 0}rem;
 `
 
 export const H1 = styled.h1`
@@ -50,8 +51,17 @@ export const P = styled.p`
 export const HL = styled.mark`
     padding: 0.2rem;
     background-color: ${props => props.background || getFader(props.theme.color.fill.primary)};
-    color: ${props => props.color || props.theme.color.text.primary}
+    color: ${props => props.color || props.theme.color.text.primary};
 `
-const Typography = {H1, H2, H3, H4, H5, H6, P}
+export const UL = styled.ul`
+    ${generalStyle}
+    margin-left: 2rem;
+`
+export const OL = styled.ul`
+    ${generalStyle}
+    margin-left: 2rem;
+`
+
+const Typography = {H1, H2, H3, H4, H5, H6, P, HL, UL, OL}
 
 export default Typography

@@ -13,8 +13,8 @@ import {
   StyledToolbar,
   VerticalLine,
 } from './StyledComponents';
+import { AlignButton, BlockButton, IndenButton, MarkButton } from './ToolbarButtons';
 import TableMatrix from './TableMatrix';
-import { AlignButton, BlockButton, MarkButton } from './ToolbarButtons';
 
 const editorTools = new EditorTools();
 
@@ -40,58 +40,7 @@ const RichTextEditor = () => {
       type: 'p',
       alignment: 'left',
       children: [{ text: 'Start using it right now' }],
-    },
-    {
-      type: 'table',
-      children: [
-        {
-          type: 'table-row',
-          children: [
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: 'table-row',
-          children: [
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
+    }
   ]);
   const renderElement = useCallback((props) => {
     return <Element {...props} />;
@@ -115,6 +64,8 @@ const RichTextEditor = () => {
             <BlockButton format="h2" text="Heading 2" icon="heading 2"/>
             <BlockButton format="h3" text="Heading 3" icon="heading 3"/>
             <VerticalLine/>
+            <IndenButton format="increase" text="Increase Indentation" icon="increase-indentation"/>
+            <IndenButton format="decrease" text="Decrease Indentation" icon="decrease-indentation"/>
             <BlockButton format="ol" text="Ordered List" icon="ordered-list"/>
             <BlockButton format="ul" text="Bullet List" icon="unordered-list"/>
             <VerticalLine/>
@@ -173,7 +124,7 @@ const RichTextEditor = () => {
           </StyledButton>
         </StyledToolbar>
         <StyledBody>
-          <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+          <Editable renderElement={renderElement} renderLeaf={renderLeaf} autoFocus spellCheck={false}/>
         </StyledBody>
       </Slate>
     </StyledContainer>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledToolbar = styled.div`
   display: flex;
   gap: 0.4rem;
-  padding: 0.4rem;
+  padding: 0.2rem 0.4rem;
   border-bottom: 1px solid ${props => props.theme.color.border.primary};
 `
 export const StyledButton = styled.button`
@@ -35,13 +35,8 @@ export const TableCell = styled.div`
   border: 1px solid ${(props) => props.theme.color.text.warning};
   background-color: ${(props) => props.active ? props.theme.color.fill.secondary : props.theme.color.background.primary};
   cursor: pointer;
+    border-collapse: collapse; 
 `
-export const TableWrapper = styled.div`
-  position: absolute;
-  top: 32px;
-  left: -50%;
-`
-
 export const VerticalLine = styled.div`
   min-height: 100%;
   width: 1px;

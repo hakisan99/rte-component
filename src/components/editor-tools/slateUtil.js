@@ -33,8 +33,13 @@ const isAlignmentActive = (editor, format) => {
     const [match] = Editor.nodes(editor, {
         match: n => !Editor.isEditor(n) && Element.isElement(n) && n.alignment === format
     })
-
     return !!match
+}
+const getCurrentIdentation = (editor) => {
+    const [match] = Editor.nodes(editor, {
+        match: n => !Editor.isEditor(n) && Element.isElement(n)
+    })
+    return match[0].indentation ? match[0].indentation : 0;
 }
 const toggleBlock = (editor, format) => {
     const isActive = isBlockActive(editor, format)
@@ -56,5 +61,12 @@ const toggleBlock = (editor, format) => {
       const block = { type: format, children: [] }
       Transforms.wrapNodes(editor, block)
     }
-  }
-export {isMarkActive, toggleMark, isBlockActive, toggleBlock, toggleAlignment, isAlignmentActive}
+}
+const changeIdentation = (editor, format) => {
+    Transforms.setNodes(
+      editor,
+      { indentation: (getCurrentIdentation(editor) > 0 ? getCurrentIdentation(editor) : 0)  + (format === 'increase' ? 1 : -1)},
+      { match: (n) => Editor.isBlock(editor, n) }
+    )
+}
+export {isMarkActive, toggleMark, isBlockActive, toggleBlock, toggleAlignment, isAlignmentActive, changeIdentation}
