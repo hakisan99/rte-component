@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { TableCell, TableWrapper } from './StyledComponents';
-import { P } from './Typography';
+import styled from 'styled-components';
 
+const StyledCell = styled.button`
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 1px solid ${props => props.theme.color.border.primary};
+  background: ${props => props.active ? props.theme.color.fillprimary : props.theme.color.background.primary};
+
+`
+const StyledText = styled.div``
+const TableWrapper = styled.div`
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+`
 const TableMatrix = ({ handleCreateTable }) => {
   const [coordinate, setCoordinate] = useState({ col: 0, row: 0 });
   const row = Array.from(Array(5))
@@ -12,7 +25,7 @@ const TableMatrix = ({ handleCreateTable }) => {
         {Array.from(Array(6))
           .map((e, i) => i + 1)
           .map((col) => (
-            <TableCell
+            <StyledCell
               onMouseOver={() => setCoordinate({ col, row })}
               onMouseDown={handleCreateTable({col, row})}
               key={col}
@@ -25,9 +38,7 @@ const TableMatrix = ({ handleCreateTable }) => {
   return (
     <TableWrapper>
       {row}
-      <P>
-        Insert {coordinate.col}x{coordinate.row} table
-      </P>
+      <StyledText>Insert {coordinate.col} x {coordinate.row} table</StyledText>
     </TableWrapper>
   );
 };
