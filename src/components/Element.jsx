@@ -13,14 +13,14 @@ const Element = (props) => {
       return <H3 {...attributes} style={{textAlign: element.alignment}}>{children}</H3>;
     case 'table':
       return (
-        <table style={{border: '1px #000 solid', borderCollapse: 'collapse'}}>
+        <table style={{ border: '1px red solid', borderCollapse: 'collapse', width:"100%"}} align='center'>
           <tbody {...attributes}>{children}</tbody>
         </table>
       );
     case 'table-row':
       return <tr {...attributes}>{children}</tr>;
     case 'table-cell':
-      return <td style={{border: '1px #000 solid'}} {...attributes}>{children}</td>
+      return <td style={{border: '1px red solid', width: '64px', height: '40px'}} {...attributes}>{children}</td>
     default:
       return <P style={{textAlign: element.alignment}} {...attributes}>{children}</P>
   }
