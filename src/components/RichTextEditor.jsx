@@ -106,7 +106,7 @@ const RichTextEditor = () => {
           </StyledButton>
         </StyledToolbar>
         <StyledBody>
-          <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+          <Editable renderElement={renderElement} renderLeaf={renderLeaf} autoFocus spellCheck={false}/>
         </StyledBody>
       </Slate>
     </StyledContainer>

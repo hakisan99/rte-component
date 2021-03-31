@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { H4, H5, H3, P, StyledTable } from './StyledComponents';
+import { H4, H5, H3, P, StyledTable, TableCell, TableRow } from './StyledComponents';
 import { OL, UL } from './Typography';
 // Element Render
 const Element = (props) => {
@@ -25,9 +25,9 @@ const Element = (props) => {
         </StyledTable>
       );
     case 'table-row':
-      return <tr {...attributes}>{children}</tr>;
+      return <TableRow {...attributes}>{children}</TableRow>;
     case 'table-cell':
-      return <td  style={{border: '1px red solid', width: '64px', height: '40px'}} {...attributes}>{children}</td>
+      return <TableCell {...attributes}>{children}</TableCell>
     default:
       return <P textAlign={element.alignment} indentation={element.indentation} {...attributes}>{children}</P>
       //return <P tabIndex={0} style={{textAlign: element.alignment}} {...attributes}>{children}</P>

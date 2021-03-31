@@ -25,16 +25,16 @@ export const StyledContainer = styled.div`
   border: 1px solid ${props => props.theme.color.border.primary};
 `
 export const StyledTable = styled.table`
-    border: '1px red solid'; 
-    border-collapse: 'collapse'; 
-    width:"100%";
+    border-collapse: collapse; 
+    width:100%;
 `
-export const TableCell = styled.div`
-  width: 20px;
-  height: 20px;
-  border: 1px solid ${(props) => props.theme.color.text.warning};
+export const TableRow = styled.tr`
+
+`
+export const TableCell = styled.td`
+  padding: 0.2rem;
+  border: 1px solid ${(props) => props.theme.color.border.primary};
   background-color: ${(props) => props.active ? props.theme.color.fill.secondary : props.theme.color.background.primary};
-  cursor: pointer;
 `
 export const TableWrapper = styled.div`
   position: absolute;
