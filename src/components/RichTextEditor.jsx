@@ -13,11 +13,23 @@ import {
   VerticalLine,
 } from './StyledComponents';
 import { AlignButton, BlockButton, IndenButton, MarkButton } from './ToolbarButtons';
+import TableMatrix from './TableMatrix';
 
 const editorTools = new EditorTools();
 
 const RichTextEditor = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const [openTable, setOpenTable] = useState(false);
+  // Handle creating table with coordinate from TableMatrix comp
+  const handleCreateTable = (coordinate) => (e) => {
+    e.preventDefault();
+    editorTools.toggleTable(
+      editor,
+      parseInt(coordinate.row, 10),
+      parseInt(coordinate.col, 10)
+    );
+    setOpenTable(false);
+  }
   const [value, setValue] = useState([
     {
       type: 'h1',
@@ -27,58 +39,7 @@ const RichTextEditor = () => {
       type: 'p',
       alignment: 'left',
       children: [{ text: 'Start using it right now' }],
-    },
-    {
-      type: 'table',
-      children: [
-        {
-          type: 'table-row',
-          children: [
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: 'table-row',
-          children: [
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-            {
-              type: 'table-cell',
-              children: [
-                {
-                  type: 'p',
-                  children: [{ text: '' }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
+    }
   ]);
   useEffect(() => {
     console.log(editor.children)
@@ -117,16 +78,11 @@ const RichTextEditor = () => {
             <VerticalLine/>
           <StyledButton
             onMouseDown={() => {
-              const row = window.prompt('Enter row:');
-              const column = window.prompt('Enter column:');
-              editorTools.toggleTable(
-                editor,
-                parseInt(row, 10),
-                parseInt(column, 10)
-              );
+             setOpenTable(!openTable);
             }}
           >
             Table
+            { openTable && <TableMatrix handleCreateTable={handleCreateTable} />}
           </StyledButton>
           <StyledButton
             onMouseDown={(e) => {
