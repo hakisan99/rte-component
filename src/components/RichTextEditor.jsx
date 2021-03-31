@@ -10,6 +10,7 @@ import {
   StyledButton,
   StyledContainer,
   StyledToolbar,
+  VerticalLine,
 } from './StyledComponents';
 import TableMatrix from './TableMatrix';
 import { AlignButton, BlockButton, MarkButton } from './ToolbarButtons';
@@ -108,18 +109,22 @@ const RichTextEditor = () => {
         onChange={(newVal) => setValue(newVal)}
       >
         <StyledToolbar>
-            <MarkButton format="bold" text="Bold"/>
-            <MarkButton format="italic" text="Italic"/>
-            <MarkButton format="underline" text="Underline"/>
-            <BlockButton format="h1" text="Heading 1"/>
-            <BlockButton format="h2" text="Heading 2"/>
-            <BlockButton format="h3" text="Heading 3"/>
-            <BlockButton format="ol" text="Ordered List"/>
-            <BlockButton format="ul" text="Bullet List"/>
-            <AlignButton format="left" text="Left"/>
-            <AlignButton format="center" text="Center"/>
-            <AlignButton format="right" text="Right"/>
-            <AlignButton format="justify" text="Justify"/>
+            <MarkButton  format="bold" text="Bold" icon="bold"/>
+            <MarkButton  format="italic" text="Italic" icon="italic"/>
+            <MarkButton  format="underline" text="Underline" icon="underline"/>
+            <VerticalLine/>
+            <BlockButton format="h1" text="Heading 1" icon="heading 1"/>
+            <BlockButton format="h2" text="Heading 2" icon="heading 2"/>
+            <BlockButton format="h3" text="Heading 3" icon="heading 3"/>
+            <VerticalLine/>
+            <BlockButton format="ol" text="Ordered List" icon="ordered-list"/>
+            <BlockButton format="ul" text="Bullet List" icon="unordered-list"/>
+            <VerticalLine/>
+            <AlignButton format="left" text="Left" icon="align-left"/>
+            <AlignButton format="center" text="Center" icon="align-center"/>
+            <AlignButton format="right" text="Right" icon="align-right"/>
+            <AlignButton format="justify" text="Justify" icon="align-justify"/>
+            <VerticalLine/>
           <StyledButton
             onMouseDown={() => {
              setOpenTable(!openTable);

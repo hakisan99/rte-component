@@ -3,37 +3,38 @@ import React from 'react'
 import { useSlate } from "slate-react"
 import { StyledButton } from "./StyledComponents"
 import {isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark} from './editor-tools/slateUtil'
+import Icon from './Icon'
 
-const MarkButton = ({format, text}) => {
+const MarkButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
-        <StyledButton active={isMarkActive(editor, format)} onMouseDown={e => {
+        <StyledButton title={text} active={isMarkActive(editor, format)} onMouseDown={e => {
             e.preventDefault()
             toggleMark(editor, format)
         }}>
-            {text}
+            <Icon icon={icon}/>
         </StyledButton>
     )
 }
-const BlockButton = ({format, text}) => {
+const BlockButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
-        <StyledButton active={isBlockActive(editor, format)} onMouseDown={e => {
+        <StyledButton title={text} active={isBlockActive(editor, format)} onMouseDown={e => {
             e.preventDefault()
             toggleBlock(editor, format)
         }}>
-            {text}
+            {icon ? <Icon icon = {icon}/> : text}
         </StyledButton>
     )
 }
-const AlignButton = ({format, text}) => {
+const AlignButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
-        <StyledButton active={isAlignmentActive(editor, format)} onMouseDown={e => {
+        <StyledButton title={text}  active={isAlignmentActive(editor, format)} onMouseDown={e => {
             e.preventDefault()
             toggleAlignment(editor, format)
         }}>
-            {text}
+            <Icon icon = {icon}/>
         </StyledButton>
     )
 }
