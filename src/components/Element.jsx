@@ -13,7 +13,7 @@ const Element = (props) => {
       return <h3 {...attributes}>{children}</h3>;
     case 'table':
       return (
-        <table style={{ border: '1px #000 solid', borderCollapse: 'collapse' }} align='center'>
+        <table style={{ border: '1px red solid', borderCollapse: 'collapse' }} align='center'>
           <tbody {...attributes}>{children}</tbody>
         </table>
       );
@@ -21,7 +21,7 @@ const Element = (props) => {
       return <tr {...attributes}>{children}</tr>;
     case 'table-cell':
       return (
-        <td style={{border: '1px #000 solid', width: '64px', height: '40px'}} {...attributes}>
+        <td style={{border: '1px red solid', width: '64px', height: '40px'}} {...attributes}>
           {children}
         </td>
       );

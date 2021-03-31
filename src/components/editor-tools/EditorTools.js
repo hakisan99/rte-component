@@ -31,7 +31,8 @@ class EditorTools {
     return !!match;
   }
 
-  toggleBlock(editor, type) {
+  toggleBlock(e, editor, type) {
+    e.preventDefault()
     const isActive = this.blockCheck(editor, type);
     const isTableCell = this.blockCheck(editor, 'table-cell');
     const node = isTableCell ? {
@@ -73,7 +74,8 @@ class EditorTools {
     );
   }
 
-  toggleMark(editor, mark) {
+  toggleMark(e, editor, mark) {
+    e.preventDefault()
     const isActive = this.markCheck(editor, mark);
     Transforms.setNodes(
       editor,
