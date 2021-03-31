@@ -64,6 +64,13 @@ const RichTextEditor = () => {
       <button onMouseDown={() => editorTools.toggleBlock(editor, 'justify')}>
         justify
       </button>
+      <button onMouseDown={() => {
+        const row = window.prompt('Enter number of row:');
+        const column = window.prompt('Enter number of column');
+        editorTools.toggleTable(editor, parseInt(row, 10), parseInt(column, 10))
+      }}>
+        Table
+      </button>
       <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
     </Slate>
   );

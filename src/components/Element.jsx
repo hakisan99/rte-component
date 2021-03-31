@@ -13,24 +13,48 @@ const Element = (props) => {
       return <h3 {...attributes}>{children}</h3>;
     case 'table':
       return (
-        <table style={{border: '1px #000 solid', borderCollapse: 'collapse'}}>
+        <table style={{ border: '1px #000 solid', borderCollapse: 'collapse' }} align='center'>
           <tbody {...attributes}>{children}</tbody>
         </table>
       );
     case 'table-row':
       return <tr {...attributes}>{children}</tr>;
     case 'table-cell':
-      return <td style={{border: '1px #000 solid'}} {...attributes}>{children}</td>
+      return (
+        <td style={{border: '1px #000 solid', width: '64px', height: '40px'}} {...attributes}>
+          {children}
+        </td>
+      );
     case 'left':
-      return <p {...attributes} style={{textAlign: 'left'}}>{children}</p>
+      return (
+        <p {...attributes} style={{ textAlign: 'left' }}>
+          {children}
+        </p>
+      );
     case 'right':
-      return <p {...attributes} style={{textAlign: 'right'}}>{children}</p>
+      return (
+        <p {...attributes} style={{ textAlign: 'right' }}>
+          {children}
+        </p>
+      );
     case 'center':
-      return <p {...attributes} style={{textAlign: 'center'}}>{children}</p>
+      return (
+        <p {...attributes} style={{ textAlign: 'center' }}>
+          {children}
+        </p>
+      );
     case 'justify':
-      return <p {...attributes} style={{textAlign: 'justify'}}>{children}</p>
+      return (
+        <p {...attributes} style={{ textAlign: 'justify' }}>
+          {children}
+        </p>
+      );
     default:
-      return <p style={{textAlign: 'left'}} {...attributes}>{children}</p>
+      return (
+        <p style={{ textAlign: 'left' }} {...attributes}>
+          {children}
+        </p>
+      );
   }
 };
 

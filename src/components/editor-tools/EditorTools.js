@@ -2,8 +2,8 @@ import { Transforms, Text, Editor } from 'slate';
 
 class EditorTools {
   markCheck(editor, mark) {
-    const [match] = Editor.nodes(editor,{
-      match: n => {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => {
         switch (mark) {
           case 'bold':
             return n.bold === true;
@@ -21,22 +21,51 @@ class EditorTools {
       },
     });
     // !!undefined => false
-    return !!match
+    return !!match;
   }
 
   blockCheck(editor, type) {
     const [match] = Editor.nodes(editor, {
-      match: n => n.type === type
+      match: (n) => n.type === type,
     });
-    return !!match
+    return !!match;
   }
 
   toggleBlock(editor, type) {
     const isActive = this.blockCheck(editor, type);
     Transforms.setNodes(
       editor,
-      { type: isActive ? null : type},
-      { match: n => Editor.isBlock(editor, n)}
+      { type: isActive ? null : type },
+      { match: (n) => Editor.isBlock(editor, n) }
+    );
+  }
+
+  toggleTable(editor, row, column) {
+    const rowArr = Array.apply(null,Array(row));
+    const colArr = Array.apply(null,Array(column));
+    console.log(rowArr);
+    const rowEl = rowArr.map(() => {
+      return {
+        type: 'table-row',
+        children: colArr.map(() => {
+          return {
+            type: 'table-cell',
+            children: [{ text: '' }],
+          };
+        }),
+      };
+    });
+    console.log(rowEl);
+    Transforms.insertNodes(
+      editor,
+      [
+        {
+          type: 'table',
+          children: rowEl,
+        },
+        { type: 'paragraph', children: [{ text: '' }] },
+      ],
+      { match: (n) => Editor.isBlock(editor, n) }
     );
   }
 
@@ -44,9 +73,9 @@ class EditorTools {
     const isActive = this.markCheck(editor, mark);
     Transforms.setNodes(
       editor,
-      { [mark]: isActive ? null : true},
-      { match: n => Text.isText(n), split: 'true'}
-    )
+      { [mark]: isActive ? null : true },
+      { match: (n) => Text.isText(n), split: 'true' }
+    );
   }
 }
 
