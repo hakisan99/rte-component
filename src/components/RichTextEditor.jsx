@@ -5,6 +5,21 @@ import { withHistory } from 'slate-history';
 import Element from './Element';
 import Leaf from './Leaf';
 import EditorTools from './editor-tools/EditorTools';
+import { StyledBody, StyledButton, StyledContainer, StyledToolbar} from './StyledComponents'
+const toolBar = [
+  {type: 'mark', value: 'bold', label: "Bold", svg: ""},
+  {type: 'mark', value: 'italic', label: "Italic", svg: ""},
+  {type: 'mark', value: 'underline', label: "Underline", svg: ""},
+  {type: 'mark', value: 'sub', label: "Sub", svg: ""},
+  {type: 'mark', value: 'sup', label: "Sup", svg: ""},
+  {type: 'block', value: 'h1', label: "H1", svg: ""},
+  {type: 'block', value: 'h2', label: "H2", svg: ""},
+  {type: 'block', value: 'h3', label: "H3", svg: ""},
+  {type: 'block', value: 'left', label: "Left", svg: ""},
+  {type: 'block', value: 'center', label: "Center", svg: ""},
+  {type: 'block', value: 'right', label: "Right", svg: ""},
+  {type: 'block', value: 'justify', label: "Justify", svg: ""},
+]
 
 const editorTools = new EditorTools()
 
@@ -23,49 +38,25 @@ const RichTextEditor = () => {
     return <Leaf {...props} />
   }, []);
   return (
-    <Slate
-      editor={editor}
-      value={value}
-      onChange={(newVal) => setValue(newVal)}
-    >
-      <button onMouseDown={() => editorTools.toggleMark(editor, 'bold')}>
-        Bold
-      </button>
-      <button onMouseDown={() => editorTools.toggleMark(editor, 'italic')}>
-        Italic
-      </button>
-      <button onMouseDown={() => editorTools.toggleMark(editor, 'underline')}>
-        Underline
-      </button>
-      <button onMouseDown={() => editorTools.toggleMark(editor, 'sub')}>
-        Sub
-      </button>
-      <button onMouseDown={() => editorTools.toggleMark(editor, 'sup')}>
-        Sup
-      </button>
-      <button onMouseDown={() => editorTools.toggleBlock(editor, 'h1')}>
-        H1
-      </button>
-      <button onMouseDown={() => editorTools.toggleBlock(editor, 'h2')}>
-        H2
-      </button>
-      <button onMouseDown={() => editorTools.toggleBlock(editor, 'h3')}>
-        H3
-      </button>
-      <button onMouseDown={() => editorTools.toggleBlock(editor, 'left')}>
-        left
-      </button>
-      <button onMouseDown={() => editorTools.toggleBlock(editor, 'center')}>
-        center
-      </button>
-      <button onMouseDown={() => editorTools.toggleBlock(editor, 'right')}>
-        right
-      </button>
-      <button onMouseDown={() => editorTools.toggleBlock(editor, 'justify')}>
-        justify
-      </button>
-      <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
-    </Slate>
+    <StyledContainer>
+      <Slate editor={editor} value={value} onChange={(newVal) => setValue(newVal)}>
+        <StyledToolbar>
+          {toolBar.filter(tool => tool.type === 'mark')
+            .map(tool => 
+              <StyledButton key={tool.value} onMouseDown={(e) => editorTools.toggleMark(e, editor, tool.value)}>{tool.label}</StyledButton>
+            )
+          }
+          {toolBar.filter(tool => tool.type === 'block')
+            .map(tool => 
+              <StyledButton key={tool.value} onMouseDown={(e) => editorTools.toggleBlock(e, editor, tool.value)}>{tool.label}</StyledButton>
+            )
+          }
+        </StyledToolbar>
+        <StyledBody>
+          <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+        </StyledBody>
+      </Slate> 
+    </StyledContainer>
   );
 }
 
