@@ -20,7 +20,7 @@ const Element = (props) => {
     case 'table-row':
       return <tr {...attributes}>{children}</tr>;
     case 'table-cell':
-      return <td style={{border: '1px #000 solid'}} {...attributes}>{children}</td>
+      return <td style={{border: '1px red solid', width: '64px', height: '40px'}} {...attributes}>{children}</td>
     // case 'left':
     //   return <p {...attributes} style={{textAlign: 'left'}}>{children}</p>
     // case 'right':
