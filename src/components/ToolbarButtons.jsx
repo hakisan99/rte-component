@@ -2,7 +2,7 @@
 import React from 'react'
 import { useSlate } from "slate-react"
 import { StyledButton } from "./StyledComponents"
-import {isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark} from './editor-tools/slateUtil'
+import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark} from './editor-tools/slateUtil'
 import Icon from './Icon'
 
 const MarkButton = ({format, text, icon}) => {
@@ -38,4 +38,15 @@ const AlignButton = ({format, text, icon}) => {
         </StyledButton>
     )
 }
-export {MarkButton, BlockButton, AlignButton}
+const IndenButton = ({format, text, icon}) => {
+    const editor = useSlate()
+    return (
+        <StyledButton title={text}  active={isAlignmentActive(editor, format)} onMouseDown={e => {
+            e.preventDefault()
+            changeIdentation(editor, format)
+        }}>
+            <Icon icon = {icon}/>
+        </StyledButton>
+    )
+}
+export {MarkButton, BlockButton, AlignButton, IndenButton}
