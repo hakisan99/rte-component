@@ -1,36 +1,23 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
+import PropTypes from "prop-types";
 import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import Element from './Element';
 import Leaf from './Leaf';
-import EditorTools from './editor-tools/EditorTools';
 import {
   StyledBody,
-  StyledButton,
   StyledContainer,
   StyledToolbar,
   VerticalLine,
 } from './StyledComponents';
-import { AlignButton, BlockButton, IndenButton, MarkButton } from './ToolbarButtons';
-import TableMatrix from './TableMatrix';
+import { AlignButton, BlockButton, IndenButton, MarkButton, AddTableButton, TableButton } from './ToolbarButtons';
+import Toggle from './Toggle';
 
-const editorTools = new EditorTools();
 
-const RichTextEditor = () => {
+const RichTextEditor = (props) => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-  const [openTable, setOpenTable] = useState(false);
-  // Handle creating table with coordinate from TableMatrix comp
-  const handleCreateTable = (coordinate) => (e) => {
-    e.preventDefault();
-    editorTools.toggleTable(
-      editor,
-      parseInt(coordinate.row, 10),
-      parseInt(coordinate.col, 10)
-    );
-    setOpenTable(false);
-  }
   const [value, setValue] = useState([
     {
       type: 'h1',
@@ -38,8 +25,7 @@ const RichTextEditor = () => {
     },
     {
       type: 'p',
-      alignment: 'left',
-      children: [{ text: 'Start using it right now' }],
+      children: [{ text: 'Start using it right now...' }],
     }
   ]);
   const renderElement = useCallback((props) => {
@@ -69,59 +55,18 @@ const RichTextEditor = () => {
             <BlockButton format="ol" text="Ordered List" icon="ordered-list"/>
             <BlockButton format="ul" text="Bullet List" icon="unordered-list"/>
             <VerticalLine/>
-            <AlignButton format="left" text="Left" icon="align-left"/>
-            <AlignButton format="center" text="Center" icon="align-center"/>
-            <AlignButton format="right" text="Right" icon="align-right"/>
-            <AlignButton format="justify" text="Justify" icon="align-justify"/>
+            <AlignButton format="left" text="Align Left" icon="align-left"/>
+            <AlignButton format="center" text="Align Center" icon="align-center"/>
+            <AlignButton format="right" text="Align Right" icon="align-right"/>
+            <AlignButton format="justify" text="Align Justify" icon="align-justify"/>
             <VerticalLine/>
-          <StyledButton
-            onMouseDown={() => {
-             setOpenTable(!openTable);
-            }}
-          >
-            Table
-            { openTable && <TableMatrix handleCreateTable={handleCreateTable} />}
-          </StyledButton>
-          <StyledButton
-            onMouseDown={(e) => {
-              editorTools.insertRow(
-                e,
-                editor,
-              );
-            }}
-          >
-            Insert Row
-          </StyledButton>
-          <StyledButton
-            onMouseDown={(e) => {
-              editorTools.insertColumn(
-                e,
-                editor,
-              );
-            }}
-          >
-            Insert Column
-          </StyledButton>
-          <StyledButton
-            onMouseDown={(e) => {
-              editorTools.removeRow(
-                e,
-                editor,
-              );
-            }}
-          >
-            Remove Row
-          </StyledButton>
-          <StyledButton
-            onMouseDown={(e) => {
-              editorTools.removeColumn(
-                e,
-                editor,
-              );
-            }}
-          >
-            Remove Column
-          </StyledButton>
+            <AddTableButton text="Add Table" icon="table"/>
+            <TableButton format="insert-row" text="Insert Row"/>
+            <TableButton format="insert-column" text="Insert Column"/>
+            <TableButton format="remove-row" text="Remove Row"/>
+            <TableButton format="remove-column" text="Remove Column"/>
+            <VerticalLine/>
+            <Toggle value={props.isDark} onSelect={() => props.setIsDark(!props.isDark)}/>
         </StyledToolbar>
         <StyledBody>
           <Editable renderElement={renderElement} renderLeaf={renderLeaf} autoFocus spellCheck={false}/>
@@ -130,5 +75,9 @@ const RichTextEditor = () => {
     </StyledContainer>
   );
 };
+RichTextEditor.propTypes = {
+  isDark: PropTypes.bool,
+  setIsDark: PropTypes.func
+}
 
 export default RichTextEditor;

@@ -40,7 +40,7 @@ export const P = styled.p`
     color: ${props => props.theme.color.text[props.color] || props.theme.color.text.primary};
     font-size: 1rem;
     font-weight: 400;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
     ${props => props.lead && css`
         line-height: 1.5;
         font-size: 1.25rem;
@@ -55,11 +55,13 @@ export const HL = styled.mark`
 `
 export const UL = styled.ul`
     ${generalStyle}
+    font-weight: 400;
     margin-left: 2rem;
 `
-export const OL = styled.ul`
+export const OL = styled.ol`
     ${generalStyle}
     margin-left: 2rem;
+    font-weight: 400;
 `
 
 const Typography = {H1, H2, H3, H4, H5, H6, P, HL, UL, OL}

@@ -10,12 +10,17 @@ export const StyledButton = styled.button`
   position: relative;
   border: none;
   padding: 0.2rem;
-  background: transparent;
   color: ${props => props.active ? props.theme.color.text.primary : props.theme.color.text.secondary};
-  background: ${props => props.active ? props.theme.color.background.secondary : props.theme.color.background.primary};
+  background: ${props => props.active ? props.theme.color.border.primary : props.theme.color.background.primary};
   border-bottom: ${props => props.active ? "1px solid " + props.theme.color.fill.primary : "none"};
   height: 1.5rem;
   cursor: pointer;
+  transition: all 0.25s ease-out;
+  outline: none;
+  &:hover {
+    color: ${props => props.theme.color.fill.info};
+    background: ${props => props.theme.color.background.secondary};
+  }
 `
 export const StyledBody = styled.div`
   padding: 0.4rem;
@@ -25,17 +30,14 @@ export const StyledContainer = styled.div`
   border: 1px solid ${props => props.theme.color.border.primary};
 `
 export const StyledTable = styled.table`
-    border: 1px red solid; 
     border-collapse: collapse; 
-    width: 100%;
 `
-export const TableCell = styled.div`
-  width: 20px;
-  height: 20px;
-  border: 1px solid ${(props) => props.theme.color.text.warning};
+export const TableRow = styled.tr``
+export const TableCell = styled.td`
+  min-width: 4rem;
+  padding: 0.2rem;
+  border: 1px solid ${(props) => props.theme.color.text.secondary};
   background-color: ${(props) => props.active ? props.theme.color.fill.secondary : props.theme.color.background.primary};
-  cursor: pointer;
-    border-collapse: collapse; 
 `
 export const VerticalLine = styled.div`
   min-height: 100%;
