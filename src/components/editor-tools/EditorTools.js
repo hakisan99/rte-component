@@ -2,23 +2,6 @@ import { Transforms, Text, Editor } from 'slate';
 
 class EditorTools {
   markCheck(editor, mark) {
-    // const [match] = Editor.nodes(editor,{
-    //   match: n => {
-    //     switch (mark) {
-    //       case 'bold':
-    //         return n.bold === true;
-    //       case 'italic':
-    //         return n.italic === true;
-    //       case 'underline':
-    //         return n.underline === true;
-    //       case 'sub':
-    //         return n.sub === true;
-    //       case 'sup':
-    //         return n.sup === true;
-    //       default:
-    //         return false;
-    //     }
-    //   },
       const [match] = Editor.nodes(editor, {match: n => n[mark]});
     // !!undefined => false
     return !!match
@@ -47,11 +30,12 @@ class EditorTools {
   }
   toggleAlignment(e, editor, alignment) {
     e.preventDefault()
-    //const isActive = this.alignCheck(editor, alignment);
+
+    //get current block type
     const [match] = Editor.nodes(editor, {
       match: n => Editor.isBlock(editor, n)
     });
-    console.log(match[0].type)
+
     Transforms.setNodes(
       editor,
       { type: match[0].type, alignment: alignment},

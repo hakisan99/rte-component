@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -27,11 +27,17 @@ const RichTextEditor = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const [value, setValue] = useState([
     {
+      type: 'h1',
+      children: [{text: 'TTG Rich Text Editor using Slate.js'}]
+    },
+    {
       type: 'p',
-      alignment: 'left',
-      children: [{ text: 'Line of text' }]
-    }
+      children: [{ text: 'Start using it right now...' }]
+    }, 
   ]);
+  useEffect(() => {
+    console.log(editor.children)
+  })
   const renderElement = useCallback((props) => {
     return <Element {...props} />
   }, []);
