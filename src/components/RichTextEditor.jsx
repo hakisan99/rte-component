@@ -11,20 +11,7 @@ import {
   StyledContainer,
   StyledToolbar,
 } from './StyledComponents';
-const toolBar = [
-  { type: 'mark', value: 'bold', label: 'Bold', svg: '' },
-  { type: 'mark', value: 'italic', label: 'Italic', svg: '' },
-  { type: 'mark', value: 'underline', label: 'Underline', svg: '' },
-  { type: 'mark', value: 'sub', label: 'Sub', svg: '' },
-  { type: 'mark', value: 'sup', label: 'Sup', svg: '' },
-  { type: 'block', value: 'h1', label: 'H1', svg: '' },
-  { type: 'block', value: 'h2', label: 'H2', svg: '' },
-  { type: 'block', value: 'h3', label: 'H3', svg: '' },
-  { type: 'alignment', value: 'left', label: 'Left', svg: '' },
-  { type: 'alignment', value: 'center', label: 'Center', svg: '' },
-  { type: 'alignment', value: 'right', label: 'Right', svg: '' },
-  { type: 'alignment', value: 'justify', label: 'Justify', svg: '' },
-];
+import { AlignButton, BlockButton, MarkButton } from './ToolbarButtons';
 
 const editorTools = new EditorTools();
 
@@ -58,42 +45,18 @@ const RichTextEditor = () => {
         onChange={(newVal) => setValue(newVal)}
       >
         <StyledToolbar>
-          {toolBar
-            .filter((tool) => tool.type === 'mark')
-            .map((tool) => (
-              <StyledButton
-                key={tool.value}
-                onMouseDown={(e) =>
-                  editorTools.toggleMark(e, editor, tool.value)
-                }
-              >
-                {tool.label}
-              </StyledButton>
-            ))}
-          {toolBar
-            .filter((tool) => tool.type === 'block')
-            .map((tool) => (
-              <StyledButton
-                key={tool.value}
-                onMouseDown={(e) =>
-                  editorTools.toggleBlock(e, editor, tool.value)
-                }
-              >
-                {tool.label}
-              </StyledButton>
-            ))}
-          {toolBar
-            .filter((tool) => tool.type === 'alignment')
-            .map((tool) => (
-              <StyledButton
-                key={tool.value}
-                onMouseDown={(e) =>
-                  editorTools.toggleAlignment(e, editor, tool.value)
-                }
-              >
-                {tool.label}
-              </StyledButton>
-            ))}
+            <MarkButton format="bold" text="Bold"/>
+            <MarkButton format="italic" text="Italic"/>
+            <MarkButton format="underline" text="Underline"/>
+            <BlockButton format="h1" text="Heading 1"/>
+            <BlockButton format="h2" text="Heading 2"/>
+            <BlockButton format="h3" text="Heading 3"/>
+            <BlockButton format="ol" text="Ordered List"/>
+            <BlockButton format="ul" text="Bullet List"/>
+            <AlignButton format="left" text="Left"/>
+            <AlignButton format="center" text="Center"/>
+            <AlignButton format="right" text="Right"/>
+            <AlignButton format="justify" text="Justify"/>
           <StyledButton
             onMouseDown={() => {
               const row = window.prompt('Enter row:');
@@ -107,7 +70,7 @@ const RichTextEditor = () => {
           >
             Table
           </StyledButton>
-          
+
         </StyledToolbar>
         <StyledBody>
           <Editable renderElement={renderElement} renderLeaf={renderLeaf} />

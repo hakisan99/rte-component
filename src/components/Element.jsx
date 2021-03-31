@@ -1,21 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { H1, H2, H3, P } from './Typography'
+import { H4, H2, H3, P, StyledTable } from './StyledComponents';
 // Element Render
 const Element = (props) => {
   const { attributes, element, children } = props;
   switch (element.type) {
     case 'h1':
-      return <H1 {...attributes} style={{textAlign: element.alignment}}>{children}</H1>;
-    case 'h2':
       return <H2 {...attributes} style={{textAlign: element.alignment}}>{children}</H2>;
-    case 'h3':
+    case 'h2':
       return <H3 {...attributes} style={{textAlign: element.alignment}}>{children}</H3>;
+    case 'h3':
+      return <H4 {...attributes} style={{textAlign: element.alignment}}>{children}</H4>;
+    case 'li':
+      return <li {...attributes} >{children}</li>
+    case 'ul':
+      return <ul {...attributes}style={{marginLeft: "1rem"}}>{children}</ul>
+    case 'ol':
+      return <ol {...attributes}style={{marginLeft: "1rem"}}>{children}</ol>
     case 'table':
       return (
-        <table style={{ border: '1px red solid', borderCollapse: 'collapse', width:"100%"}} align='center'>
+        <StyledTable>
           <tbody {...attributes}>{children}</tbody>
-        </table>
+        </StyledTable>
       );
     case 'table-row':
       return <tr {...attributes}>{children}</tr>;

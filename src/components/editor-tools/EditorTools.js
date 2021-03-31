@@ -13,12 +13,6 @@ class EditorTools {
     });
     return !!match;
   }
-  alignCheck(editor, alignment) {
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.alignment === alignment,
-    });
-    return !!match;
-  }
 
   toggleBlock(e, editor, type) {
     e.preventDefault();
@@ -41,8 +35,7 @@ class EditorTools {
             type: 'table-cell',
             children: [{
               type: 'p',
-              alignment: 'left',
-              children: [{ text: 'Start using it right now' }],
+              children: [{ text: '' }],
             }],
           };
         }),
@@ -65,24 +58,27 @@ class EditorTools {
     e.preventDefault();
     
     //get the block type of the current block
-    const [match] = Editor.nodes(editor, {
-      match: (n) => Editor.isBlock(editor, n),
-    });
+    // const [match] = Editor.nodes(editor, {
+    //   match: (n) => n.alignment === alignment,
+    // });
+    console.log("Boom")
     Transforms.setNodes(
       editor,
-      { type: match[0].type, alignment: alignment },
+      { alignment: alignment },
       { match: (n) => Editor.isBlock(editor, n) }
     );
+    Transforms.setNodes()
   }
   toggleMark(e, editor, mark) {
     e.preventDefault();
-    const isActive = this.markCheck(editor, mark);
-    Transforms.setNodes(
-      editor,
-      { [mark]: isActive ? null : true },
-      { match: (n) => Text.isText(n), split: 'true' }
-    );
+      const isActive = this.markCheck(editor, mark);
+      Transforms.setNodes(
+        editor,
+        { [mark]: isActive ? null : true },
+        { match: (n) => Text.isText(n), split: 'true' }
+      );
   }
+  
 }
 
 export default EditorTools
