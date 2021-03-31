@@ -33,17 +33,21 @@ class EditorTools {
 
   toggleBlock(editor, type) {
     const isActive = this.blockCheck(editor, type);
+    const isTableCell = this.blockCheck(editor, 'table-cell');
+    const node = isTableCell ? {
+      type: 'table-cell', children: [{ type: isActive ? null : type}]
+    } : {type: isActive ? null : type}
     Transforms.setNodes(
       editor,
-      { type: isActive ? null : type },
-      { match: (n) => Editor.isBlock(editor, n) }
+      node,
+      { match: (n) => Editor.isBlock(editor, n),  }
     );
   }
 
   toggleTable(editor, row, column) {
     const rowArr = Array.apply(null,Array(row));
     const colArr = Array.apply(null,Array(column));
-    console.log(rowArr);
+    // Create table children --> tr and td
     const rowEl = rowArr.map(() => {
       return {
         type: 'table-row',
