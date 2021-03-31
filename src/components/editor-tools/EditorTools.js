@@ -2,23 +2,6 @@ import { Transforms, Text, Editor } from 'slate';
 
 class EditorTools {
   markCheck(editor, mark) {
-    // const [match] = Editor.nodes(editor,{
-    //   match: n => {
-    //     switch (mark) {
-    //       case 'bold':
-    //         return n.bold === true;
-    //       case 'italic':
-    //         return n.italic === true;
-    //       case 'underline':
-    //         return n.underline === true;
-    //       case 'sub':
-    //         return n.sub === true;
-    //       case 'sup':
-    //         return n.sup === true;
-    //       default:
-    //         return false;
-    //     }
-    //   },
     const [match] = Editor.nodes(editor, { match: (n) => n[mark] });
     // !!undefined => false
     return !!match;
@@ -35,6 +18,84 @@ class EditorTools {
       match: (n) => n.alignment === alignment,
     });
     return !!match;
+  }
+
+  tableCheck(editor) {
+    if (editor.selection) {
+      const node = Editor.node(editor, editor.selection, { depth: 1});
+      if (node[0].type === 'table') {
+        // const currentNumRows = node[0].children.length;
+        // const rowArr = Array.apply(null, Array(currentNumRows));
+        return node
+      }
+      return null
+    }
+  }
+
+  insertRow(e, editor){
+    e.preventDefault();
+    const node = this.tableCheck(editor);
+    if (node) {
+      const currentNumCol = node[0].children[0].children.length;
+      const colArr = Array.apply(null, Array(currentNumCol));
+      Transforms.insertNodes(
+        editor,
+        {
+          type: 'table-row',
+          children: colArr.map(() => {
+            return {
+              type: 'table-cell',
+              children: [{
+                type: 'p',
+                children: [{ text: ''}]
+              }]
+            } 
+          }
+          )
+        },
+        {at: Editor.parent(editor, editor.selection, { depth: 3})[1]}
+      )
+    }
+  }
+
+  insertColumn(e,editor) {
+    e.preventDefault();
+    const node = this.tableCheck(editor);
+    console.log(Editor.parent(editor, editor.selection, { depth: 4 })[1]);
+    if (node) {
+      const currentNumRows = node[0].children.length;
+      // const rowArr = Array.apply(null, Array(currentNumRows));
+      for (let i = 0; i < currentNumRows; i+=1) {
+        let pos = Editor.parent(editor, editor.selection, { depth: 4 })[1];
+        pos[1] = i;
+        Transforms.insertNodes(
+          editor,
+          {
+            type: 'table-cell',
+            children: [
+              {
+                type: 'p',
+                children: [{ text: '' }],
+              },
+            ],
+          },
+          { at: pos}
+        );
+      }
+      // Transforms.insertNodes(
+      //   editor,
+      //   {
+      //     type: 'table-cell',
+      //     children: [
+      //       {
+      //         type: 'p',
+      //         children: [{ text: '' }],
+      //       },
+      //     ],
+      //   },
+      //   { at: Editor.parent(editor, editor.selection, { depth: 4 })[1]}
+      // );
+    }
   }
 
   toggleBlock(e, editor, type) {
@@ -61,7 +122,6 @@ class EditorTools {
         }),
       };
     });
-    console.log(rowEl);
     Transforms.insertNodes(
       editor,
       [

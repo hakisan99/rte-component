@@ -36,6 +36,57 @@ const RichTextEditor = () => {
       alignment: 'left',
       children: [{ text: 'Line of text' }],
     },
+    {
+      type: 'table',
+      children: [
+        {
+          type: 'table-row',
+          children: [
+            {
+              type: 'table-cell',
+              children: [
+                {
+                  type: 'p',
+                  children: [{ text: '' }],
+                },
+              ],
+            },
+            {
+              type: 'table-cell',
+              children: [
+                {
+                  type: 'p',
+                  children: [{ text: '' }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'table-row',
+          children: [
+            {
+              type: 'table-cell',
+              children: [
+                {
+                  type: 'p',
+                  children: [{ text: '' }],
+                },
+              ],
+            },
+            {
+              type: 'table-cell',
+              children: [
+                {
+                  type: 'p',
+                  children: [{ text: '' }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ]);
   const renderElement = useCallback((props) => {
     return <Element {...props} />;
@@ -99,6 +150,26 @@ const RichTextEditor = () => {
             }}
           >
             Table
+          </StyledButton>
+          <StyledButton
+            onMouseDown={(e) => {
+              editorTools.insertRow(
+                e,
+                editor,
+              );
+            }}
+          >
+            Insert Row
+          </StyledButton>
+          <StyledButton
+            onMouseDown={(e) => {
+              editorTools.insertColumn(
+                e,
+                editor,
+              );
+            }}
+          >
+            Insert Column
           </StyledButton>
         </StyledToolbar>
         <StyledBody>
