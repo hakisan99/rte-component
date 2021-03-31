@@ -26,9 +26,9 @@ const Element = (props) => {
     case 'table-row':
       return <tr {...attributes}>{children}</tr>;
     case 'table-cell':
-      return <td style={{border: '1px red solid', width: '64px', height: '40px'}} {...attributes}>{children}</td>
+      return <td  style={{border: '1px red solid', width: '64px', height: '40px'}} {...attributes}>{children}</td>
     default:
-      return <P style={{textAlign: element.alignment}} {...attributes}>{children}</P>
+      return <P tabIndex={0} style={{textAlign: element.alignment}} {...attributes}>{children}</P>
   }
 };
 

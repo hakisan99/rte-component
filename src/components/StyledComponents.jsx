@@ -7,6 +7,7 @@ export const StyledToolbar = styled.div`
   border-bottom: 1px solid ${props => props.theme.color.border.primary};
 `
 export const StyledButton = styled.button`
+  position: relative;
   border: none;
   padding: 0.2rem;
   background: transparent;
@@ -27,6 +28,19 @@ export const StyledTable = styled.table`
     border-collapse: 'collapse'; 
     width:"100%";
 `
+export const TableCell = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 1px solid ${(props) => props.theme.color.text.warning};
+  background-color: ${(props) => props.active ? props.theme.color.fill.secondary : props.theme.color.background.primary};
+  cursor: pointer;
+`
+export const TableWrapper = styled.div`
+  position: absolute;
+  top: 32px;
+  left: -50%;
+`
+
 import {H1, H2, H3, H4, H5, H6, P, HL} from './Typography'
 
 export {H1, H2, H3, H4, H5, H6, P, HL}

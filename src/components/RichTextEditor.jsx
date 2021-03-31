@@ -11,12 +11,24 @@ import {
   StyledContainer,
   StyledToolbar,
 } from './StyledComponents';
+import TableMatrix from './TableMatrix';
 import { AlignButton, BlockButton, MarkButton } from './ToolbarButtons';
 
 const editorTools = new EditorTools();
 
 const RichTextEditor = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const [openTable, setOpenTable] = useState(false);
+  // Handle creating table with coordinate from TableMatrix comp
+  const handleCreateTable = (coordinate) => (e) => {
+    e.preventDefault();
+    editorTools.toggleTable(
+      editor,
+      parseInt(coordinate.row, 10),
+      parseInt(coordinate.col, 10)
+    );
+    setOpenTable(false);
+  }
   const [value, setValue] = useState([
     {
       type: 'h1',
@@ -110,16 +122,11 @@ const RichTextEditor = () => {
             <AlignButton format="justify" text="Justify"/>
           <StyledButton
             onMouseDown={() => {
-              const row = window.prompt('Enter row:');
-              const column = window.prompt('Enter column:');
-              editorTools.toggleTable(
-                editor,
-                parseInt(row, 10),
-                parseInt(column, 10)
-              );
+             setOpenTable(!openTable);
             }}
           >
             Table
+            { openTable && <TableMatrix handleCreateTable={handleCreateTable} />}
           </StyledButton>
           <StyledButton
             onMouseDown={(e) => {
