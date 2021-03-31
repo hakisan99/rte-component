@@ -15,10 +15,10 @@ const toolBar = [
   {type: 'block', value: 'h1', label: "H1", svg: ""},
   {type: 'block', value: 'h2', label: "H2", svg: ""},
   {type: 'block', value: 'h3', label: "H3", svg: ""},
-  {type: 'block', value: 'left', label: "Left", svg: ""},
-  {type: 'block', value: 'center', label: "Center", svg: ""},
-  {type: 'block', value: 'right', label: "Right", svg: ""},
-  {type: 'block', value: 'justify', label: "Justify", svg: ""},
+  {type: 'alignment', value: 'left', label: "Left", svg: ""},
+  {type: 'alignment', value: 'center', label: "Center", svg: ""},
+  {type: 'alignment', value: 'right', label: "Right", svg: ""},
+  {type: 'alignment', value: 'justify', label: "Justify", svg: ""},
 ]
 
 const editorTools = new EditorTools()
@@ -27,7 +27,8 @@ const RichTextEditor = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const [value, setValue] = useState([
     {
-      type: 'paragraph',
+      type: 'p',
+      alignment: 'left',
       children: [{ text: 'Line of text' }]
     }
   ]);
@@ -51,9 +52,14 @@ const RichTextEditor = () => {
               <StyledButton key={tool.value} onMouseDown={(e) => editorTools.toggleBlock(e, editor, tool.value)}>{tool.label}</StyledButton>
             )
           }
+          {toolBar.filter(tool => tool.type === 'alignment')
+            .map(tool => 
+              <StyledButton key={tool.value} onMouseDown={(e) => editorTools.toggleAlignment(e, editor, tool.value)}>{tool.label}</StyledButton>
+            )
+          }
         </StyledToolbar>
         <StyledBody>
-          <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+          <Editable renderElement={renderElement} renderLeaf={renderLeaf}/>
         </StyledBody>
       </Slate> 
     </StyledContainer>
