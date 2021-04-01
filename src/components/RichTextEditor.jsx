@@ -12,7 +12,7 @@ import {
   StyledToolbar,
   VerticalLine,
 } from './StyledComponents';
-import { AlignButton, BlockButton, IndenButton, MarkButton, AddTableButton, TableButton } from './ToolbarButtons';
+import { AlignButton, BlockButton, IndenButton, MarkButton, AddTableButton, TableButton, FontSizeButton } from './ToolbarButtons';
 import Toggle from './Toggle';
 
 
@@ -45,6 +45,8 @@ const RichTextEditor = (props) => {
             <MarkButton  format="bold" text="Bold" icon="bold"/>
             <MarkButton  format="italic" text="Italic" icon="italic"/>
             <MarkButton  format="underline" text="Underline" icon="underline"/>
+            <VerticalLine />
+            <FontSizeButton text='Font Size' />
             <VerticalLine/>
             <BlockButton format="h1" text="Heading 1" icon="heading 1"/>
             <BlockButton format="h2" text="Heading 2" icon="heading 2"/>

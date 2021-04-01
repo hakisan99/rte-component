@@ -15,6 +15,15 @@ const toggleMark = (editor, format) => {
         Editor.addMark(editor, format, true)
     }
 }
+const toggleFontSize = (editor, format, value) => {
+  const isActive = isMarkActive(editor, format);
+  if (isActive) {
+    Editor.removeMark(editor, format)
+  } else {
+    Editor.addMark(editor, format, value)
+  }
+}
+
 const toggleAlignment = (editor, format) => {
     Transforms.setNodes(
       editor,
@@ -69,4 +78,4 @@ const changeIdentation = (editor, format) => {
       { match: (n) => Editor.isBlock(editor, n) }
     )
 }
-export {isMarkActive, toggleMark, isBlockActive, toggleBlock, toggleAlignment, isAlignmentActive, changeIdentation}
+export {isMarkActive, toggleMark, toggleFontSize, isBlockActive, toggleBlock, toggleAlignment, isAlignmentActive, changeIdentation}

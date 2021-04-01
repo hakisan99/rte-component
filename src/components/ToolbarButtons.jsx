@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSlate } from "slate-react"
 //utils
-import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark} from './editor-tools/slateUtil'
+import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleFontSize} from './editor-tools/slateUtil'
 import {insertColumn, insertRow, removeColumn, removeRow, toggleTable} from './editor-tools/tableUtil'
 //components
 import { StyledButton } from "./StyledComponents"
@@ -10,6 +10,7 @@ import Icon from './Icon'
 import TableMatrix from './TableMatrix'
 //hook
 import useClickOutside from '../hooks/useClickOutside'
+import FontSizeOptions from './FontSizeOptions'
 
 const MarkButton = ({format, text, icon}) => {
     const editor = useSlate()
@@ -55,8 +56,41 @@ const IndenButton = ({format, text, icon}) => {
         </StyledButton>
     )
 }
+const FontSizeButton = ({ text }) => {
+  const [openFont, setOpenFont ] = useState(false);
+  const editor = useSlate();
+  const options = [
+    {
+      label: 'Large',
+      value: '24px',
+    },
+    {
+      label: 'Medium',
+      value: '16px',
+    },
+    {
+      label: 'Small',
+      value: '10px',
+    },
+  ];
+  const ref = useClickOutside(() => setOpenFont(false));
+  const handleSelectFontSize = (value) => () => {
+    toggleFontSize(editor, 'fontSize', value);
+    console.log(value);
+  }
+  return (
+    <StyledButton
+      ref={ref}
+      title={text}
+      onClick={() => setOpenFont(!openFont)}
+    > 
+      <Icon icon={'font-size'} />
+      {openFont && <FontSizeOptions options={options} handleSelectFontSize={handleSelectFontSize}/>}
+    </StyledButton>
+  )
+}
+
 const AddTableButton = ({text, icon}) => {
-    
     const editor = useSlate()
     const [openTable, setOpenTable] = useState(false)
     const [isOut, setIsOut] = useState(false)
@@ -107,4 +141,4 @@ const TableButton = ({format, text}) => {
         </StyledButton>
     )
 }
-export {MarkButton, BlockButton, AlignButton, IndenButton, AddTableButton, TableButton}
+export {MarkButton, BlockButton, AlignButton, IndenButton, AddTableButton, TableButton, FontSizeButton}
