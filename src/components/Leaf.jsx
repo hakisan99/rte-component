@@ -19,7 +19,7 @@ const Leaf = (props) => {
   if (leaf.sup) {
     children = <sup>{children}</sup>
   }
-  return <span style={{fontSize: "100%", color: leaf.textColor, backgroundColor: leaf.highlight}} {...attributes}>{children}</span>
+  return <span style={{fontSize: leaf.fontSize, color: leaf.textColor, backgroundColor: leaf.highlight}} {...attributes}>{children}</span>
 }
 
 Leaf.propTypes = {

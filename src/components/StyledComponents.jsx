@@ -44,6 +44,9 @@ export const VerticalLine = styled.div`
   width: 1px;
   background: ${props => props.theme.color.border.primary};
 `
+export const MentionTag = styled.span`
+  color: ${props => props.theme.color.text.info};
+`
 import {H1, H2, H3, H4, H5, H6, P, HL} from './Typography'
 
 export {H1, H2, H3, H4, H5, H6, P, HL}
