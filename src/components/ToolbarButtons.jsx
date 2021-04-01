@@ -7,12 +7,13 @@ import {insertColumn, insertRow, removeColumn, removeRow, toggleTable} from './e
 //components
 import { StyledButton } from "./StyledComponents"
 import Icon from './Icon'
-import TableMatrix from './TableMatrix'
+import TableMatrix from './popupComponents/TableMatrix'
 //hook
 import useClickOutside from '../hooks/useClickOutside'
-import FontSizeOptions from './FontSizeOptions'
-import ColorsPanel from './ColorsPanel'
+import FontSizeOptions from './popupComponents/FontSizeOptions'
+import ColorsPanel from './popupComponents/ColorsPanel'
 import theme from '../utils/theme'
+import { getFader } from '../utils/color'
 
 const MarkButton = ({format, text, icon}) => {
     const editor = useSlate()
@@ -126,7 +127,7 @@ const TextHighlight = ({text = 'Highlight text'}) => {
       onClick={() => setOpenColorPanel(!openColorPanel)}
     > 
       <Icon icon={'highlight'} />
-      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>}
+      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text).map(clr => getFader(clr, 0.8))} handleSelectColor={handleSelectTextColor}/>}
     </StyledButton>
   )
 }
