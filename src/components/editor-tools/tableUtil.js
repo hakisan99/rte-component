@@ -91,23 +91,29 @@ export const insertColumn = (editor) => {
       }
     }
   }
-
+// Delete whole table if it has only one row, otherwise just delete the row at cursor
 export const removeRow = (editor) => {
     const node = tableCheck(editor);
     if (node) {
-      Transforms.removeNodes(editor, {
-        at: Editor.parent(editor, editor.selection, { depth: 3 })[1],
-      });
+      let pos;
+      if (node[0].children[0].children.length === 1) {
+        pos = Editor.parent(editor, editor.selection, { depth: 2 })[1];
+        Transforms.removeNodes(editor, { at: pos });
+      }
+      if (node[0].children[0].children.length > 1) {
+        Transforms.removeNodes(editor, {
+          at: Editor.parent(editor, editor.selection, { depth: 3 })[1],
+        });
+      }
     }
   }
-  // Delete whole table if it has only one column, otherwise just delete the column at cursor
+// Delete whole table if it has only one column, otherwise just delete the column at cursor
 export const removeColumn = (editor) => {
     const node = tableCheck(editor);
     if (node) {
       let pos;
       if (node[0].children[0].children.length === 1) {
         pos = Editor.parent(editor, editor.selection, { depth: 2 })[1];
-        console.log(pos);
         Transforms.removeNodes(editor, { at: pos });
       }
       if (node[0].children[0].children.length > 1) {
