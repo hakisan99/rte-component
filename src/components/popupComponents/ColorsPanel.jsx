@@ -31,10 +31,9 @@ const ColorsPanel = ({colors, handleSelectColor}) => {
   return (
     <ColorsPanelWrapper>
       {
-        colors.map(color => <ColorSquare key={color} onMouseDown={(e) => {
-          e.preventDefault()
+        colors.map(color => <ColorSquare key={color} onMouseDown={
           handleSelectColor(color)
-        }} color={color} />)
+        } color={color} />)
       }
     </ColorsPanelWrapper>
   )
