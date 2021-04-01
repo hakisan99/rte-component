@@ -71,9 +71,8 @@ const AddTableButton = ({text, icon}) => {
             setIsOut(true)
         }
     useEffect(() => {
-        if(isOut)
-            setTimeout(() => setOpenTable(false), 200)
-    })
+      if (isOut) setTimeout(() => setOpenTable(false), 200);
+    });
     return (
         <StyledButton ref={ref} title={text}
             onMouseDown={() => {
