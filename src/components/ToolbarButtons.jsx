@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react'
-import { useSlate, ReactEditor } from "slate-react";
+import { useSlate } from "slate-react";
+import { Transforms, Range } from 'slate'; 
 //utils
 import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
 import {insertColumn, insertRow, removeColumn, removeRow, toggleTable} from './editor-tools/tableUtil'
@@ -12,7 +13,8 @@ import TableMatrix from './popupComponents/TableMatrix'
 import useClickOutside from '../hooks/useClickOutside'
 import FontSizeOptions from './popupComponents/FontSizeOptions'
 import ColorsPanel from './popupComponents/ColorsPanel'
-import theme from '../utils/theme'
+import theme from '../utils/theme';
+import { getFader } from '../utils/color';
 
 
 const MarkButton = ({format, text, icon}) => {
@@ -61,33 +63,34 @@ const IndenButton = ({format, text, icon}) => {
 }
 const FontSizeButton = ({ text }) => {
   const [openFont, setOpenFont ] = useState(false);
+  // const [previousSelection, setPreviousSelection] = useState(null);
   const editor = useSlate();
   const options = [
     {
       label: 'Large',
-      value: '24px',
+      value: '120%',
     },
     {
       label: 'Medium',
-      value: '16px',
+      value: '100%',
     },
     {
       label: 'Small',
-      value: '10px',
+      value: '80%',
     },
   ];
   const ref = useClickOutside(() => setOpenFont(false));
   const handleSelectFontSize = (value) => () => {
     toggleTextStyling(editor, 'fontSize', value);
-    setTimeout(() => {
-      ReactEditor.focus(editor);  
-    }, 100);
   }
   return (
     <StyledButton
       ref={ref}
       title={text}
-      onClick={() => setOpenFont(!openFont)}
+      onMouseDown={(e) => {
+        e.preventDefault();
+        setOpenFont(!openFont)
+      }}
     > 
       <Icon icon={'font-size'} />
       {openFont && <FontSizeOptions options={options} handleSelectFontSize={handleSelectFontSize}/>}
@@ -102,15 +105,12 @@ const TextColor = ({text = 'Text Color'}) => {
   const handleSelectTextColor = (value) => () => {
     toggleTextStyling(editor, 'textColor', value);
     setOpenColorPanel(false);
-    setTimeout(() => {
-      ReactEditor.focus(editor);  
-    }, 100);
   }
   return (
     <StyledButton
       ref={ref}
       title={text}
-      onClick={(e) => {
+      onMouseDown={(e) => {
         e.preventDefault()
         setOpenColorPanel(!openColorPanel)
       }}
@@ -128,21 +128,19 @@ const TextHighlight = ({text = 'Highlight text'}) => {
   const handleSelectTextColor = (value) => () => {
     toggleTextStyling(editor, 'highlight', value);
     setOpenColorPanel(false);
-    setTimeout(() => {
-      ReactEditor.focus(editor);  
-    }, 100);
+    Transforms.select(editor, Range.end(editor.selection));
   }
   return (
     <StyledButton
       ref={ref}
       title={text}
-      onClick={(e) => {
+      onMouseDown={(e) => {
         e.preventDefault()
         setOpenColorPanel(!openColorPanel)
       }}
     > 
       <Icon icon={'highlight'} />
-      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>}
+      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text).map(clr => getFader(clr, 0.4))} handleSelectColor={handleSelectTextColor}/>}
     </StyledButton>
   )
 }
