@@ -96,11 +96,11 @@ export const removeRow = (editor) => {
     const node = tableCheck(editor);
     if (node) {
       let pos;
-      if (node[0].children[0].children.length === 1) {
+      if (node[0].children.length === 1) {
         pos = Editor.parent(editor, editor.selection, { depth: 2 })[1];
         Transforms.removeNodes(editor, { at: pos });
       }
-      if (node[0].children[0].children.length > 1) {
+      if (node[0].children.length > 1) {
         Transforms.removeNodes(editor, {
           at: Editor.parent(editor, editor.selection, { depth: 3 })[1],
         });
