@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
-const StyledCell = styled.button`
+const StyledCell = styled.div`
   width: 1.5rem;
   height: 1.5rem;
   border: 1px solid ${props => props.theme.color.fill.primary};
