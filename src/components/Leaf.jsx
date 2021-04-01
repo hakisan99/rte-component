@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const Leaf = (props) => {
   let { attributes, children, leaf } = props;
+  attributes.tabIndex = 0;
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }
@@ -20,6 +21,12 @@ const Leaf = (props) => {
   }
   if (leaf.fontSize) {
     children = <span style={{fontSize: leaf.fontSize}}>{children}</span>
+  }
+  if (leaf.textColor) {
+    children = <span style={{color: leaf.textColor}}>{children}</span>
+  }
+  if (leaf.highlight) {
+    children = <span style={{backgroundColor: leaf.highlight}}>{children}</span>
   }
   return <span {...attributes}>{children}</span>
 }

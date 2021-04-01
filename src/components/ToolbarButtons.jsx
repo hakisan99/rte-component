@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSlate } from "slate-react"
 //utils
-import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleFontSize} from './editor-tools/slateUtil'
+import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
 import {insertColumn, insertRow, removeColumn, removeRow, toggleTable} from './editor-tools/tableUtil'
 //components
 import { StyledButton } from "./StyledComponents"
@@ -11,6 +11,8 @@ import TableMatrix from './TableMatrix'
 //hook
 import useClickOutside from '../hooks/useClickOutside'
 import FontSizeOptions from './FontSizeOptions'
+import ColorsPanel from './ColorsPanel'
+import theme from '../utils/theme'
 
 const MarkButton = ({format, text, icon}) => {
     const editor = useSlate()
@@ -75,8 +77,7 @@ const FontSizeButton = ({ text }) => {
   ];
   const ref = useClickOutside(() => setOpenFont(false));
   const handleSelectFontSize = (value) => () => {
-    toggleFontSize(editor, 'fontSize', value);
-    console.log(value);
+    toggleTextStyling(editor, 'fontSize', value);
   }
   return (
     <StyledButton
@@ -86,6 +87,46 @@ const FontSizeButton = ({ text }) => {
     > 
       <Icon icon={'font-size'} />
       {openFont && <FontSizeOptions options={options} handleSelectFontSize={handleSelectFontSize}/>}
+    </StyledButton>
+  )
+}
+
+const TextColor = ({text = 'Text Color'}) => {
+  const editor = useSlate();
+  const [openColorPanel, setOpenColorPanel] = useState(false);
+  const ref = useClickOutside(() => setOpenColorPanel(false));
+  const handleSelectTextColor = (value) => () => {
+    toggleTextStyling(editor, 'textColor', value);
+    setOpenColorPanel(false);
+  }
+  return (
+    <StyledButton
+      ref={ref}
+      title={text}
+      onClick={() => setOpenColorPanel(!openColorPanel)}
+    > 
+      <Icon icon={'text-color'} />
+      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>}
+    </StyledButton>
+  )
+}
+
+const TextHighlight = ({text = 'Highlight text'}) => {
+  const editor = useSlate();
+  const [openColorPanel, setOpenColorPanel] = useState(false);
+  const ref = useClickOutside(() => setOpenColorPanel(false));
+  const handleSelectTextColor = (value) => () => {
+    toggleTextStyling(editor, 'highlight', value);
+    setOpenColorPanel(false);
+  }
+  return (
+    <StyledButton
+      ref={ref}
+      title={text}
+      onClick={() => setOpenColorPanel(!openColorPanel)}
+    > 
+      <Icon icon={'highlight'} />
+      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>}
     </StyledButton>
   )
 }
@@ -141,4 +182,4 @@ const TableButton = ({format, text}) => {
         </StyledButton>
     )
 }
-export {MarkButton, BlockButton, AlignButton, IndenButton, AddTableButton, TableButton, FontSizeButton}
+export {MarkButton, BlockButton, AlignButton, IndenButton, AddTableButton, TableButton, FontSizeButton, TextColor, TextHighlight}
