@@ -104,7 +104,10 @@ const TextColor = ({text = 'Text Color'}) => {
     <StyledButton
       ref={ref}
       title={text}
-      onClick={() => setOpenColorPanel(!openColorPanel)}
+      onClick={(e) => {
+        e.preventDefault()
+        setOpenColorPanel(!openColorPanel)
+      }}
     > 
       <Icon icon={'text-color'} />
       {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>}
@@ -124,10 +127,13 @@ const TextHighlight = ({text = 'Highlight text'}) => {
     <StyledButton
       ref={ref}
       title={text}
-      onClick={() => setOpenColorPanel(!openColorPanel)}
+      onClick={(e) => {
+        e.preventDefault()
+        setOpenColorPanel(!openColorPanel)
+      }}
     > 
       <Icon icon={'highlight'} />
-      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text).map(clr => getFader(clr, 0.8))} handleSelectColor={handleSelectTextColor}/>}
+      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text).map(clr => getFader(clr, 0.4))} handleSelectColor={handleSelectTextColor}/>}
     </StyledButton>
   )
 }

@@ -7,6 +7,7 @@ const StyledCell = styled.div`
   height: 1.5rem;
   border: 1px solid ${props => props.theme.color.fill.primary};
   background: ${props => props.active ? props.theme.color.fill.primary : "transparent"};
+  border-radius: 4px;
 `
 const StyledText = styled.div`
   color: ${props => props.theme.color.text.secondary};
