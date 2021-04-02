@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import PropTypes from "prop-types";
 import { createEditor } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import Element from './Element';
 import Leaf from './Leaf';
@@ -34,11 +34,14 @@ const RichTextEditor = (props) => {
   const [openTableOptions, setOpenTableOptions] = useState(false);
   const [tableOptionsPosition, setTableOptionsPosition] = useState({top: 0, left: 0});
   const ref = useClickOutside(() => setOpenTableOptions(false));
-  const handleOpenTableOptions = (e) => {
+  const handleOpenTableOptions = () => {
     const isTable = tableCheck(editor);
     if (isTable) {
-      // Not sure how to implement this, so here's some hard code
-      setTableOptionsPosition({top: e.nativeEvent.pageY + 24, left: e.nativeEvent.pageX + 48})
+      const domRange = ReactEditor.toDOMRange(editor, editor.selection);
+      const rect = domRange.getBoundingClientRect();
+      const y = rect.top + window.pageYOffset + 32;
+      const x = rect.left + window.pageXOffset + 32;
+      setTableOptionsPosition({top: y, left: x})
       setOpenTableOptions(true);
     }
   }

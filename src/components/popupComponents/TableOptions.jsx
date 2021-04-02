@@ -36,6 +36,7 @@ const TableOptions = ({position, setOpenTableOptions}) => {
       <TableOption onMouseDown={() => {insertColumn(editor); setOpenTableOptions(false)}}>Insert Column</TableOption>
       <TableOption onMouseDown={() => {removeRow(editor); setOpenTableOptions(false)}}>Remove Row</TableOption>
       <TableOption onMouseDown={() => {removeColumn(editor); setOpenTableOptions(false)}}>Remove Column</TableOption>
+      <TableOption onMouseDown={() => setOpenTableOptions(false)}>Close</TableOption>
     </TableOptionsWrapper>
   )
 };

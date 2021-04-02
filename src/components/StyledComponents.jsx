@@ -30,7 +30,8 @@ export const StyledContainer = styled.div`
   border: 1px solid ${props => props.theme.color.border.primary};
 `
 export const StyledTable = styled.table`
-    border-collapse: collapse; 
+    border-collapse: collapse;
+    width: 100%; 
 `
 export const TableRow = styled.tr``
 export const TableCell = styled.td`
