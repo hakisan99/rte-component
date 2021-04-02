@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { H4, H5, H3, P, StyledTable, TableCell, TableRow, MentionTag } from './StyledComponents';
+import { H4, H5, H3, P, TableRow, MentionTag, TableCell } from './StyledComponents';
 import { OL, UL } from './Typography';
-
+import Table from './Table';
 // Element Render
 const Element = (props) => {
   const { attributes, element, children } = props;
@@ -21,9 +21,9 @@ const Element = (props) => {
       return <OL {...attributes}>{children}</OL>
     case 'table':
       return (
-        <StyledTable>
+        <Table>
           <tbody {...attributes}>{children}</tbody>
-        </StyledTable>
+        </Table>
       );
     case 'table-row':
       return <TableRow {...attributes}>{children}</TableRow>;

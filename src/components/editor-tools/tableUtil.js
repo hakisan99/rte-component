@@ -1,4 +1,4 @@
-import { Editor, Transforms } from "slate";
+import { Editor, Transforms, Range } from "slate";
 
 export const toggleTable = (editor, row, column) => {
     const rowArr = Array.apply(null, Array(row));
@@ -35,7 +35,7 @@ export const toggleTable = (editor, row, column) => {
 export const tableCheck = (editor) => {
     if (editor.selection) {
       const node = Editor.node(editor, editor.selection, { depth: 1 });
-      if (node[0].type === 'table') {
+      if (node[0].type === 'table' && Range.isCollapsed(editor.selection)) {
         return node;
       }
       return null;
