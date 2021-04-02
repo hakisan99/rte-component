@@ -31,7 +31,7 @@ export const StyledContainer = styled.div`
 `
 export const StyledTable = styled.table`
     border-collapse: collapse;
-    width: 100%; 
+    //width: 100%; 
 `
 export const TableRow = styled.tr``
 export const TableCell = styled.td`
@@ -48,6 +48,7 @@ export const VerticalLine = styled.div`
 export const MentionTag = styled.span`
   display: inline-block;
   color: ${props => props.theme.color.text.info};
+  display: inline-block;
 `
 import {H1, H2, H3, H4, H5, H6, P, HL} from './Typography'
 
