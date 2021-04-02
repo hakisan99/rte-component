@@ -9,8 +9,8 @@ const useMention = (editor, data) => {
     const [target, setTarget] = useState()
     const [index, setIndex] = useState(0)
     const [search, setSearch] = useState('')
-    const chars = data.filter(c =>
-        c.toLowerCase().startsWith(search.toLowerCase())
+    const chars = search === '@' ? data : data.filter(c =>
+        c.toLowerCase().indexOf(search.toLowerCase()) !== -1
       ).slice(0, 5)
 
     const onMouseEnter = (i) => {
@@ -59,11 +59,11 @@ const useMention = (editor, data) => {
         const { selection } = editor
             if (selection && Range.isCollapsed(selection)) {
                 const [start] = Range.edges(selection)
-                const wordBefore = Editor.before(editor, start, { unit: 'word' })
-                const before = wordBefore && Editor.before(editor, wordBefore)
-                const beforeRange = before && Editor.range(editor, before, start)
+                const wordBefore = Editor.before(editor, start, { unit: 'word' });
+                const before = wordBefore && Editor.before(editor, wordBefore);
+                const beforeRange = before && Editor.range(editor, before, start);
                 const beforeText = beforeRange && Editor.string(editor, beforeRange)
-                const beforeMatch = beforeText && beforeText.match(/^@(\w+)$/)
+                const beforeMatch = beforeText && beforeText.match(/^@(\w*)/)
                 const after = Editor.after(editor, start)
                 const afterRange = Editor.range(editor, start, after)
                 const afterText = Editor.string(editor, afterRange)
@@ -71,7 +71,7 @@ const useMention = (editor, data) => {
 
                 if (beforeMatch && afterMatch) {
                     setTarget(beforeRange)
-                    setSearch(beforeMatch[1])
+                    setSearch(beforeMatch[1]);
                     setIndex(0)
                     return
                 }
@@ -83,7 +83,7 @@ const useMention = (editor, data) => {
           const el = ref.current
           const domRange = ReactEditor.toDOMRange(editor, target)
           const rect = domRange.getBoundingClientRect()
-          el.style.top = `${rect.top + window.pageYOffset + 24}px`
+          el.style.top = `${rect.top + window.pageYOffset + 32}px`
           el.style.left = `${rect.left + window.pageXOffset}px`
         }
       }, [chars.length, editor, index, search, target])
