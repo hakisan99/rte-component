@@ -46,6 +46,7 @@ export const VerticalLine = styled.div`
   background: ${props => props.theme.color.border.primary};
 `
 export const MentionTag = styled.span`
+  display: inline-block;
   color: ${props => props.theme.color.text.info};
 `
 import {H1, H2, H3, H4, H5, H6, P, HL} from './Typography'
