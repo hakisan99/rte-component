@@ -31,7 +31,7 @@ export const StyledContainer = styled.div`
 `
 export const StyledTable = styled.table`
     border-collapse: collapse;
-    width: 100%; 
+    //width: 100%; 
 `
 export const TableRow = styled.tr``
 export const TableCell = styled.td`

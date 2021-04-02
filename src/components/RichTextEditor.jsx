@@ -1,13 +1,10 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import PropTypes from "prop-types";
 import { createEditor } from 'slate';
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import Element from './Element';
 import Leaf from './Leaf';
-import {StyledBody, StyledContainer, StyledToolbar, VerticalLine} from './StyledComponents';
-import { AlignButton, BlockButton, IndenButton, MarkButton, AddTableButton, TableButton, FontSizeButton, TextColor, TextHighlight } from './ToolbarButtons';
-import Toggle from './Toggle';
+import {StyledBody, StyledContainer} from './StyledComponents';
 import TableOptions from './popupComponents/TableOptions';
 import { tableCheck } from './editor-tools/tableUtil';
 import useClickOutside from '../hooks/useClickOutside';
@@ -15,8 +12,9 @@ import withElement from '../utils/withElement';
 import useMention from './mention/useMention';
 import defaultValue from '../utils/defaultValue'
 import mentionData from './mention/mentionData'
+import ToolBar from './ToolBar';
 
-const RichTextEditor = (props) => {
+const RichTextEditor = () => {
   const editor = useMemo(() => withElement(withHistory(withReact(createEditor()))), []);
   const [value, setValue] = useState(defaultValue);
 
@@ -38,6 +36,7 @@ const RichTextEditor = (props) => {
     const isTable = tableCheck(editor);
     if (isTable) {
       const domRange = ReactEditor.toDOMRange(editor, editor.selection);
+      console.log(domRange)
       const rect = domRange.getBoundingClientRect();
       const y = rect.top + window.pageYOffset + 32;
       const x = rect.left + window.pageXOffset + 32;
@@ -57,56 +56,7 @@ const RichTextEditor = (props) => {
         value={value}
         onChange={onChange}
       >
-        <StyledToolbar>
-          <MarkButton format="bold" text="Bold" icon="bold" />
-          <MarkButton format="italic" text="Italic" icon="italic" />
-          <MarkButton format="underline" text="Underline" icon="underline" />
-          <VerticalLine />
-          <FontSizeButton text="Font Size" />
-          <TextColor text="Text Color" />
-          <TextHighlight text="Highlight text" />
-          <VerticalLine />
-          <BlockButton format="h1" text="Heading 1" icon="heading 1" />
-          <BlockButton format="h2" text="Heading 2" icon="heading 2" />
-          <BlockButton format="h3" text="Heading 3" icon="heading 3" />
-          <VerticalLine />
-          <IndenButton
-            format="increase"
-            text="Increase Indentation"
-            icon="increase-indentation"
-          />
-          <IndenButton
-            format="decrease"
-            text="Decrease Indentation"
-            icon="decrease-indentation"
-          />
-          <BlockButton format="ol" text="Ordered List" icon="ordered-list" />
-          <BlockButton format="ul" text="Bullet List" icon="unordered-list" />
-          <VerticalLine />
-          <AlignButton format="left" text="Align Left" icon="align-left" />
-          <AlignButton
-            format="center"
-            text="Align Center"
-            icon="align-center"
-          />
-          <AlignButton format="right" text="Align Right" icon="align-right" />
-          <AlignButton
-            format="justify"
-            text="Align Justify"
-            icon="align-justify"
-          />
-          <VerticalLine />
-          <AddTableButton text="Add Table" icon="table" />
-          <TableButton format="insert-row" text="Insert Row" />
-          <TableButton format="insert-column" text="Insert Column" />
-          <TableButton format="remove-row" text="Remove Row" />
-          <TableButton format="remove-column" text="Remove Column" />
-          <VerticalLine />
-          <Toggle
-            value={props.isDark}
-            onSelect={() => props.setIsDark(!props.isDark)}
-          />
-        </StyledToolbar>
+        <ToolBar/>
         <StyledBody>
           <Editable
             renderElement={renderElement}
@@ -126,9 +76,5 @@ const RichTextEditor = (props) => {
     </StyledContainer>
   );
 };
-RichTextEditor.propTypes = {
-  isDark: PropTypes.bool,
-  setIsDark: PropTypes.func
-}
 
 export default RichTextEditor;

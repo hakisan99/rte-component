@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import RichTextEditor from './components/RichTextEditor'
 import styled, { ThemeProvider } from 'styled-components'
 import theme from './utils/theme'
+import ThemeContext from './components/ThemeContext'
+
 const StyledApp = styled.div`
   background: ${props => props.theme.color.background.primary};
   height: 100vh;
@@ -10,14 +12,23 @@ const StyledApp = styled.div`
   transition: background 0.25s ease-out;
 `
 
-function App() {
-  const [isDark, setIsDark] = useState(true)
+const Container = () => {
+  const themeContext = ThemeContext.useContainer()
+  
   return (
-    <ThemeProvider theme={isDark ? theme.dark : theme.light}>
-      <StyledApp>
-        <RichTextEditor setIsDark={setIsDark} isDark={isDark}/>
-      </StyledApp>
+    <ThemeProvider theme={themeContext.isDark ? theme.dark : theme.light}>
+        <StyledApp>
+          <RichTextEditor/>
+        </StyledApp>
     </ThemeProvider>
+  )
+}
+
+function App() {
+  return (
+    <ThemeContext.Provider>
+      <Container/>
+    </ThemeContext.Provider>
   );
 }
 
