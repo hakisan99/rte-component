@@ -49,6 +49,7 @@ const RichTextEditor = () => {
     setValue(newVal)
     onChangeFunc()
   }
+  
   return (
     <StyledContainer ref={ref}>
       <Slate

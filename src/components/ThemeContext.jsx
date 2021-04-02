@@ -1,8 +1,9 @@
 import { useState } from "react"
+// https://github.com/jamiebuilds/unstated-next
 import { createContainer } from "unstated-next"
 
-const useTheme = (isDarkk = true) => {
-    const [isDark, setIsDark] = useState(isDarkk)
+const useTheme = () => {
+    const [isDark, setIsDark] = useState(true)
     const toggleTheme = () => setIsDark(!isDark)
 
     return {isDark, toggleTheme}
