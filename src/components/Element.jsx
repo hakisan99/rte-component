@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { H4, H5, H3, P, StyledTable, TableCell, TableRow } from './StyledComponents';
+import { H4, H5, H3, P, StyledTable, TableCell, TableRow, MentionTag } from './StyledComponents';
 import { OL, UL } from './Typography';
+
 // Element Render
 const Element = (props) => {
   const { attributes, element, children } = props;
@@ -28,6 +29,8 @@ const Element = (props) => {
       return <TableRow {...attributes}>{children}</TableRow>;
     case 'table-cell':
       return <TableCell {...attributes}>{children}</TableCell>
+    case 'mention':
+      return <MentionTag {...attributes}>{element.character}{children}</MentionTag>
     default:
       return <P textAlign={element.alignment} indentation={element.indentation} {...attributes}>{children}</P>
       //return <P tabIndex={0} style={{textAlign: element.alignment}} {...attributes}>{children}</P>

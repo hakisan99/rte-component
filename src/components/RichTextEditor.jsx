@@ -1,39 +1,31 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useMemo, useState, useCallback, useRef } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import PropTypes from "prop-types";
 import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import Element from './Element';
 import Leaf from './Leaf';
-import {
-  StyledBody,
-  StyledContainer,
-  StyledToolbar,
-  VerticalLine,
-} from './StyledComponents';
+import {StyledBody, StyledContainer, StyledToolbar, VerticalLine} from './StyledComponents';
 import { AlignButton, BlockButton, IndenButton, MarkButton, AddTableButton, TableButton, FontSizeButton, TextColor, TextHighlight } from './ToolbarButtons';
 import Toggle from './Toggle';
 import TableOptions from './popupComponents/TableOptions';
 import { tableCheck } from './editor-tools/tableUtil';
 import useClickOutside from '../hooks/useClickOutside';
-
+import withElement from '../utils/withElement';
+import useMention from './mention/useMention';
+import defaultValue from '../utils/defaultValue'
+import mentionData from './mention/mentionData'
 
 const RichTextEditor = (props) => {
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-  const [value, setValue] = useState([
-    {
-      type: 'h1',
-      children: [{text: 'TTG Rich Text Editor using Slate.js'}]
-    },
-    {
-      type: 'p',
-      children: [{ text: 'Start using it right now...' }],
-    }
-  ]);
+  const editor = useMemo(() => withElement(withHistory(withReact(createEditor()))), []);
+  const [value, setValue] = useState(defaultValue);
+
+  const [keydownFunc, onChangeFunc, Mention] = useMention(editor, mentionData)
+
   const renderElement = useCallback((props) => {
     return <Element {...props} />;
   }, []);
+
   const renderLeaf = useCallback((props) => {
     return <Leaf {...props} />;
   }, []);
@@ -50,12 +42,17 @@ const RichTextEditor = (props) => {
       setOpenTableOptions(true);
     }
   }
+
+  const onChange = (newVal) => {
+    setValue(newVal)
+    onChangeFunc()
+  }
   return (
     <StyledContainer ref={ref}>
       <Slate
         editor={editor}
         value={value}
-        onChange={(newVal) => setValue(newVal)}
+        onChange={onChange}
       >
         <StyledToolbar>
           <MarkButton format="bold" text="Bold" icon="bold" />
@@ -117,7 +114,9 @@ const RichTextEditor = (props) => {
               e.preventDefault();
               handleOpenTableOptions(e);
             }}
+            onKeyDown={keydownFunc}
           />
+          <Mention />
         </StyledBody>
         {openTableOptions && <TableOptions position={tableOptionsPosition} setOpenTableOptions={setOpenTableOptions} />}
       </Slate>
