@@ -35,7 +35,7 @@ export const StyledItem = styled.div`
 const MentionPopup =  ({target, reff, chars, index, onMouseEnter, onClick}) => {
 
     return (
-      (target && chars.length > 0) ? (
+      (chars.length > 0) ? (
         <Portal>
           <StyledPopup ref={reff}>
             {chars.map((char, i) => (

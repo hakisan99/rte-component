@@ -9,6 +9,7 @@ const generalStyle = props => `
     color: ${props.theme.color.text[props.color] || props.theme.color.text.primary};
     text-align: ${props.textAlign || "left"};
     margin-left: ${props.indentation ? props.indentation * 2 < 0 ? 0 : props.indentation * 2 : 0}rem;
+    outline: none;
 `
 
 export const H1 = styled.h1`

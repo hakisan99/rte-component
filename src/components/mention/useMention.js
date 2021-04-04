@@ -9,7 +9,7 @@ const useMention = (editor, data) => {
     const [target, setTarget] = useState()
     const [index, setIndex] = useState(0)
     const [search, setSearch] = useState('')
-    const chars = search === '@' ? data : data.filter(c =>
+    const chars = data.filter(c =>
         c.toLowerCase().indexOf(search.toLowerCase()) !== -1
       ).slice(0, 5)
 
@@ -58,20 +58,30 @@ const useMention = (editor, data) => {
     const onChangeFunc = () => {
         const { selection } = editor
             if (selection && Range.isCollapsed(selection)) {
+                //console.log("<========>")
+                //Get the point at the caret
                 const [start] = Range.edges(selection)
+                //console.log("Point at the caret: ", start)
+                //Get the start point of the word before the caret
                 const wordBefore = Editor.before(editor, start, { unit: 'word' });
+                //console.log("Point at the start of the word before the caret: ", wordBefore)
                 const before = wordBefore && Editor.before(editor, wordBefore);
+                //console.log("Before the point at the word 1 : ", before)
                 const beforeRange = before && Editor.range(editor, before, start);
+                //console.log("Range from before to start: ", beforeRange)
                 const beforeText = beforeRange && Editor.string(editor, beforeRange)
-                const beforeMatch = beforeText && beforeText.match(/^@(\w*)/)
+                //console.log("Before text: ", beforeText)
+                const beforeMatch = beforeText && beforeText.match(/^@/)
+                //console.log("Before match: ", beforeMatch)
                 const after = Editor.after(editor, start)
                 const afterRange = Editor.range(editor, start, after)
                 const afterText = Editor.string(editor, afterRange)
                 const afterMatch = afterText.match(/^(\s|$)/)
 
                 if (beforeMatch && afterMatch) {
+                    console.log("Triggered")
                     setTarget(beforeRange)
-                    setSearch(beforeMatch[1]);
+                    setSearch("la");
                     setIndex(0)
                     return
                 }

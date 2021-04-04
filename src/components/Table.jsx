@@ -9,7 +9,7 @@ import { tableCheck } from './editor-tools/tableUtil'
 
 const TableWrapper = styled.table`
   border-collapse: collapse;
-  width: 100%;
+  margin: 0.5rem 0;
 `;
 // eslint-disable-next-line react/prop-types
 const Table = forwardRef(({attributes, children}, ref) => {

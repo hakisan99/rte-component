@@ -1,6 +1,12 @@
 import React from 'react'
+import styled from 'styled-components';
+import PropTypes from 'prop-types'
+const StyledIcon = styled.span`
+  color: ${props => props.isDisabled ? props.theme.color.border.primary : 'inherit'};
+  cursor: ${props => props.isDisabled ? 'not-allowed' : 'pointer'};
+`
 
-const Icon = ({icon}) => {
+const Icon = ({icon, isDisabled}) => {
     const Ico =
       icon === 'bold' ? (
         <svg
@@ -222,7 +228,11 @@ const Icon = ({icon}) => {
       ) : (
         <p>X</p>
       );
-    return Ico
+    return <StyledIcon isDisabled={isDisabled}>{Ico}</StyledIcon>
+}
+Icon.propTypes = {
+  icon: PropTypes.string,
+  isDisabled: PropTypes.bool
 }
 
 export default Icon

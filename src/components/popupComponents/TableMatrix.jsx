@@ -43,7 +43,7 @@ const TableMatrix = ({ handleCreateTable, isOut }) => {
           .map((col) => (
             <StyledCell
               onMouseOver={() => setCoordinate({ col, row })}
-              onMouseDown={handleCreateTable({col, row})}
+              onMouseDown={(e) => handleCreateTable(e, col, row)}
               key={col}
               col={col}
               active={col <= coordinate.col && row <= coordinate.row}

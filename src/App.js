@@ -13,6 +13,7 @@ const StyledApp = styled.div`
 `
 
 const Container = () => {
+  
   const themeContext = ThemeContext.useContainer()
   
   return (
@@ -20,6 +21,7 @@ const Container = () => {
         <StyledApp>
           <RichTextEditor/>
         </StyledApp>
+
     </ThemeProvider>
   )
 }

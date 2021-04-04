@@ -4,7 +4,7 @@ import { useSlate } from "slate-react";
 import { Transforms, Range } from 'slate'; 
 //utils
 import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
-import {insertColumn, insertRow, removeColumn, removeRow, toggleTable} from './editor-tools/tableUtil'
+import {insertColumn, insertRow, removeColumn, removeRow, tableCheck, toggleTable} from './editor-tools/tableUtil'
 //components
 import { StyledButton } from "./StyledComponents"
 import Icon from './Icon'
@@ -17,7 +17,7 @@ import theme from '../utils/theme';
 import { getFader } from '../utils/color';
 
 
-const MarkButton = ({format, text, icon}) => {
+export const MarkButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
         <StyledButton title={text} active={isMarkActive(editor, format)} onMouseDown={e => {
@@ -28,7 +28,7 @@ const MarkButton = ({format, text, icon}) => {
         </StyledButton>
     )
 }
-const BlockButton = ({format, text, icon}) => {
+export const BlockButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
         <StyledButton title={text} active={isBlockActive(editor, format)} onMouseDown={e => {
@@ -39,7 +39,7 @@ const BlockButton = ({format, text, icon}) => {
         </StyledButton>
     )
 }
-const AlignButton = ({format, text, icon}) => {
+export const AlignButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
         <StyledButton title={text}  active={isAlignmentActive(editor, format)} onMouseDown={e => {
@@ -50,7 +50,7 @@ const AlignButton = ({format, text, icon}) => {
         </StyledButton>
     )
 }
-const IndenButton = ({format, text, icon}) => {
+export const IndenButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
         <StyledButton title={text}  active={isAlignmentActive(editor, format)} onMouseDown={e => {
@@ -61,7 +61,7 @@ const IndenButton = ({format, text, icon}) => {
         </StyledButton>
     )
 }
-const FontSizeButton = ({ text }) => {
+export const FontSizeButton = ({ text }) => {
   const [openFont, setOpenFont ] = useState(false);
   // const [previousSelection, setPreviousSelection] = useState(null);
   const editor = useSlate();
@@ -98,7 +98,7 @@ const FontSizeButton = ({ text }) => {
   )
 }
 
-const TextColor = ({text = 'Text Color'}) => {
+export const TextColor = ({text = 'Text Color'}) => {
   const editor = useSlate();
   const [openColorPanel, setOpenColorPanel] = useState(false);
   const ref = useClickOutside(() => setOpenColorPanel(false));
@@ -121,7 +121,7 @@ const TextColor = ({text = 'Text Color'}) => {
   )
 }
 
-const TextHighlight = ({text = 'Highlight text'}) => {
+export const TextHighlight = ({text = 'Highlight text'}) => {
   const editor = useSlate();
   const [openColorPanel, setOpenColorPanel] = useState(false);
   const ref = useClickOutside(() => setOpenColorPanel(false));
@@ -145,17 +145,20 @@ const TextHighlight = ({text = 'Highlight text'}) => {
   )
 }
 
-const AddTableButton = ({text, icon}) => {
+export const AddTableButton = ({text, icon}) => {
     const editor = useSlate()
+
+    //const [disabled, setDisabled] = useState(tableCheck(editor))
+
     const [openTable, setOpenTable] = useState(false)
     const [isOut, setIsOut] = useState(false)
     const ref = useClickOutside(() => setIsOut(true))
-    const handleCreateTable = (coordinate) => (e) => {
+    const handleCreateTable = (e, col, row) => {
             e.preventDefault();
             toggleTable(
                 editor,
-                parseInt(coordinate.row, 10),
-                parseInt(coordinate.col, 10)
+                parseInt(row, 10),
+                parseInt(col, 10)
             );
             setIsOut(true)
         }
@@ -163,8 +166,9 @@ const AddTableButton = ({text, icon}) => {
       if (isOut) setTimeout(() => setOpenTable(false), 200);
     });
     return (
-        <StyledButton ref={ref} title={text}
-            onMouseDown={() => {
+        <StyledButton ref={ref} title={text} disabled={!!tableCheck(editor)}
+            onMouseDown={(e) => {
+                e.preventDefault()
                 if (!openTable) {
                     setOpenTable(true)
                     setIsOut(false)
@@ -173,12 +177,12 @@ const AddTableButton = ({text, icon}) => {
                 }
             }}
         >
-            <Icon icon = {icon}/>
+            <Icon icon = {icon} isDisabled={!!tableCheck(editor)}/>
             { openTable && <TableMatrix isOut={isOut} handleCreateTable={handleCreateTable} />}
           </StyledButton>
     )
 }
-const TableButton = ({format, text}) => {
+export const TableButton = ({format, text}) => {
     const editor = useSlate()
     const func = 
         format === "insert-row" ? insertRow : 
@@ -196,4 +200,3 @@ const TableButton = ({format, text}) => {
         </StyledButton>
     )
 }
-export {MarkButton, BlockButton, AlignButton, IndenButton, AddTableButton, TableButton, FontSizeButton, TextColor, TextHighlight}

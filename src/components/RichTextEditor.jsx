@@ -10,44 +10,73 @@ import useMention from './mention/useMention';
 import defaultValue from '../utils/defaultValue'
 import mentionData from './mention/mentionData'
 import ToolBar from './ToolBar';
+import { handleKey } from './editor-tools/keyUtil';
 
 const RichTextEditor = () => {
+  
   const editor = useMemo(() => withElement(withHistory(withReact(createEditor()))), []);
+  
   const [value, setValue] = useState(defaultValue);
 
   const [keydownFunc, onChangeFunc, Mention] = useMention(editor, mentionData)
 
-  const renderElement = useCallback((props) => {
-    return <Element {...props} />;
-  }, []);
+  const renderElement = useCallback((props) => <Element {...props} />, [])
 
-  const renderLeaf = useCallback((props) => {
-    return <Leaf {...props} />;
-  }, []);
+  const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
+
   const onChange = (newVal) => {
     setValue(newVal)
     onChangeFunc()
   }
+  const handleKeyDown = (e) => {
+    keydownFunc(e)
+    handleKey(editor, e)
+  }
   return (
-    <StyledContainer >
-      <Slate
-        editor={editor}
-        value={value}
-        onChange={onChange}
-      >
-        <ToolBar/>
-        <StyledBody>
-          <Editable
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-            autoFocus
-            spellCheck={false}
-            onKeyDown={keydownFunc}
-          />
-          <Mention />
-        </StyledBody>
-      </Slate>
-    </StyledContainer>
+        <StyledContainer >
+          <Slate editor={editor} value={value} onChange={onChange}>
+            <ToolBar/>
+            <StyledBody>
+              <Editable
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                autoFocus
+                spellCheck={false}
+                onKeyDown={handleKeyDown}
+                // Lam sao de biet duoc trong clipboard la copy tu excel ra ???
+                // onPaste={(e) => {
+                //   e.preventDefault()
+                //   var clipText = e.clipboardData.getData('Text');
+                //   console.log(e.clipboardData.types)
+                //   console.log(ClipboardEvent.clipboardData)
+                //   clipText = clipText.replace(/"((?:[^"]*(?:\r\n|\n\r|\n|\r))+[^"]+)"/mg, function (match, p1) {
+                //     // This function runs for each cell with multi lined text.
+                //     return p1
+                //         // Replace any double double-quotes with a single
+                //         // double-quote
+                //         .replace(/""/g, '"')
+                //         // Replace all new lines with spaces.
+                //         .replace(/\r\n|\n\r|\n|\r/g, '[NEWLINE]')
+                //     ;
+                //   })
+                  
+                //   let data = []
+                //   clipText.split('\n').forEach(line => {
+                //     if(line) {
+                //       let row = []
+                //       line.split('\t').forEach(cell => {
+                //         row.push(cell.replace("[NEWLINE]", "\n"))
+                //       })
+                //       data.push(row)
+                //     }
+                //   })
+                //   console.log(data)
+                // }}
+              />
+              <Mention />
+            </StyledBody>
+          </Slate>
+        </StyledContainer>
   );
 };
 
