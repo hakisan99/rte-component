@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const FontSizeOptionsWrapper = styled.ul`
-  position: absolute;
-  top: 120%;
-  left: 50%;
-  transform: translateX(-50%);
   background: ${(props) => props.theme.color.background.secondary};
-  border: 1px solid ${(props) => props.theme.color.border.primary};
-  border-radius: 4px;
-  box-shadow: ${(props) => props.theme.shadow};
-  box-sizing: border-box;
   list-style-type: none;
 `
 

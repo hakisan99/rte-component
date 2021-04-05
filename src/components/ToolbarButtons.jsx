@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useSlate } from "slate-react";
-import { Transforms, Range } from 'slate'; 
 //utils
-import {changeIdentation, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
+import {changeIdentation, getCurrentColor, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
 import {insertColumn, insertRow, removeColumn, removeRow, tableCheck, toggleTable} from './editor-tools/tableUtil'
 //components
 import { StyledButton } from "./StyledComponents"
@@ -15,6 +14,7 @@ import FontSizeOptions from './popupComponents/FontSizeOptions'
 import ColorsPanel from './popupComponents/ColorsPanel'
 import theme from '../utils/theme';
 import { getFader } from '../utils/color';
+import PopupWrapper from './popupComponents/PopupWrapper';
 
 
 export const MarkButton = ({format, text, icon}) => {
@@ -66,18 +66,9 @@ export const FontSizeButton = ({ text }) => {
   // const [previousSelection, setPreviousSelection] = useState(null);
   const editor = useSlate();
   const options = [
-    {
-      label: 'Large',
-      value: '120%',
-    },
-    {
-      label: 'Medium',
-      value: '100%',
-    },
-    {
-      label: 'Small',
-      value: '80%',
-    },
+    { label: 'Large', value: '125%'},
+    { label: 'Medium',value: '100%'},
+    { label: 'Small', value: '75%'},
   ];
   const ref = useClickOutside(() => setOpenFont(false));
   const handleSelectFontSize = (value) => () => {
@@ -93,17 +84,21 @@ export const FontSizeButton = ({ text }) => {
       }}
     > 
       <Icon icon={'font-size'} />
-      {openFont && <FontSizeOptions options={options} handleSelectFontSize={handleSelectFontSize}/>}
+      <PopupWrapper isOpen={openFont} headline="Font Size">
+        <FontSizeOptions options={options} handleSelectFontSize={handleSelectFontSize}/>
+      </PopupWrapper>
     </StyledButton>
   )
 }
 
 export const TextColor = ({text = 'Text Color'}) => {
+
   const editor = useSlate();
   const [openColorPanel, setOpenColorPanel] = useState(false);
   const ref = useClickOutside(() => setOpenColorPanel(false));
   const handleSelectTextColor = (value) => () => {
-    toggleTextStyling(editor, 'textColor', value);
+    if (value === "remove") toggleTextStyling(editor, 'textColor', null)
+    else toggleTextStyling(editor, 'textColor', value);
     setOpenColorPanel(false);
   }
   return (
@@ -115,8 +110,10 @@ export const TextColor = ({text = 'Text Color'}) => {
         setOpenColorPanel(!openColorPanel)
       }}
     > 
-      <Icon icon={'text-color'} />
-      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>}
+      <Icon icon={'text-color'} color={getCurrentColor(editor, "color")} />
+      <PopupWrapper isOpen={openColorPanel} headline="Color">
+        <ColorsPanel current={getCurrentColor(editor, "color")} type="color" colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>
+        </PopupWrapper>
     </StyledButton>
   )
 }
@@ -126,9 +123,9 @@ export const TextHighlight = ({text = 'Highlight text'}) => {
   const [openColorPanel, setOpenColorPanel] = useState(false);
   const ref = useClickOutside(() => setOpenColorPanel(false));
   const handleSelectTextColor = (value) => () => {
-    toggleTextStyling(editor, 'highlight', value);
+    if (value === "remove") toggleTextStyling(editor, 'highlight', null)
+    else toggleTextStyling(editor, 'highlight', getFader(value, 0.4));
     setOpenColorPanel(false);
-    Transforms.select(editor, Range.end(editor.selection));
   }
   return (
     <StyledButton
@@ -139,20 +136,18 @@ export const TextHighlight = ({text = 'Highlight text'}) => {
         setOpenColorPanel(!openColorPanel)
       }}
     > 
-      <Icon icon={'highlight'} />
-      {openColorPanel && <ColorsPanel colors={Object.values(theme.light.color.text).map(clr => getFader(clr, 0.4))} handleSelectColor={handleSelectTextColor}/>}
+      <Icon icon={'highlight'} color={getCurrentColor(editor, "highlight")}/>
+      <PopupWrapper isOpen={openColorPanel} headline="Highlight">
+        <ColorsPanel current={getCurrentColor(editor, "highlight")} type="highlight" colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>
+      </PopupWrapper>
     </StyledButton>
   )
 }
 
 export const AddTableButton = ({text, icon}) => {
     const editor = useSlate()
-
-    //const [disabled, setDisabled] = useState(tableCheck(editor))
-
     const [openTable, setOpenTable] = useState(false)
-    const [isOut, setIsOut] = useState(false)
-    const ref = useClickOutside(() => setIsOut(true))
+    const ref = useClickOutside(() => setOpenTable(false))
     const handleCreateTable = (e, col, row) => {
             e.preventDefault();
             toggleTable(
@@ -160,26 +155,18 @@ export const AddTableButton = ({text, icon}) => {
                 parseInt(row, 10),
                 parseInt(col, 10)
             );
-            setIsOut(true)
+            setOpenTable(true)
         }
-    useEffect(() => {
-      if (isOut) setTimeout(() => setOpenTable(false), 200);
-    });
     return (
         <StyledButton ref={ref} title={text} disabled={!!tableCheck(editor)}
             onMouseDown={(e) => {
                 e.preventDefault()
-                if (!openTable) {
-                    setOpenTable(true)
-                    setIsOut(false)
-                } else {
-                    setIsOut(true)
-                }
-            }}
-        >
+                if (!openTable) setOpenTable(true)
+                else setOpenTable(false)
+            }}>
             <Icon icon = {icon} isDisabled={!!tableCheck(editor)}/>
-            { openTable && <TableMatrix isOut={isOut} handleCreateTable={handleCreateTable} />}
-          </StyledButton>
+            <PopupWrapper isOpen={openTable} headline="Table"><TableMatrix handleCreateTable={handleCreateTable} /></PopupWrapper>
+        </StyledButton>
     )
 }
 export const TableButton = ({format, text}) => {

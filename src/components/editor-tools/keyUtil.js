@@ -1,7 +1,7 @@
 import {onTab} from './tableUtil'
 import isHotKey from 'is-hotkey'
 import { toggleMark } from './slateUtil'
-
+//mod is ctrl in windows and cmd on mac
 const isTab = isHotKey('tab')
 const isBold = isHotKey('mod+b')
 const isItalic = isHotKey('mod+i')

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 const StyledCell = styled.div`
   width: 1.5rem;
@@ -13,26 +13,12 @@ const StyledText = styled.div`
   color: ${props => props.theme.color.text.secondary};
   margin-top: 0.2rem;
 `
-const aniIn = keyframes`
-  0% {transform: translateX(-50%) scaleY(0); transform-origin: 50% 0%; opacity: 0}
-  100% {transform: translateX(-50%) scaleY(1); transform-origin: 50% 0%; opacity: 1}
-`
-const aniOut = keyframes`
-  100% {transform: translateX(-50%) scaleY(0); transform-origin: 50% 0%; opacity: 0}
-`
+
 const TableWrapper = styled.div`
-  position: absolute;
-  top: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: ${props => props.isOut ? aniOut : aniIn} 0.2s ease-in 0s 1 forwards normal;
   background: ${props => props.theme.color.background.secondary};
-  padding: 0.4rem;
-  border: 1px solid ${props => props.theme.color.border.primary};
   border-radius: 4px;
-  box-shadow: ${props => props.theme.shadow};
 `
-const TableMatrix = ({ handleCreateTable, isOut }) => {
+const TableMatrix = ({ handleCreateTable }) => {
   const [coordinate, setCoordinate] = useState({ col: 0, row: 0 });
   const row = Array.from(Array(5))
     .map((e, i) => i + 1)
@@ -52,7 +38,7 @@ const TableMatrix = ({ handleCreateTable, isOut }) => {
       </div>
     ));
   return (
-    <TableWrapper isOut={isOut}>
+    <TableWrapper>
       {row}
       <StyledText>Insert {coordinate.col} x {coordinate.row} table</StyledText>
     </TableWrapper>
@@ -60,8 +46,7 @@ const TableMatrix = ({ handleCreateTable, isOut }) => {
 };
 
 TableMatrix.propTypes = {
-  handleCreateTable: PropTypes.func,
-  isOut: PropTypes.bool
+  handleCreateTable: PropTypes.func
 }
 
 export default TableMatrix;

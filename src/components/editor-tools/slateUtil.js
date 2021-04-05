@@ -17,12 +17,19 @@ export const toggleMark = (editor, format) => {
     }
 }
 export const toggleTextStyling = (editor, format, value) => {
+  getCurrentColor(editor)
   const isActive = isMarkActive(editor, format);
   if (isActive) {
+    console.log("Active")
     Editor.removeMark(editor, format)
   } else {
     Editor.addMark(editor, format, value)
   }
+}
+export const getCurrentColor = (editor, type) => {
+  let key = type === "color" ? "textColor" : "highlight"
+  const marks = Editor.marks(editor)
+  return marks ? marks[key] : null
 }
 //#endregion
 
