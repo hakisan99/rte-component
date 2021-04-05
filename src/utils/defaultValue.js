@@ -6,7 +6,7 @@ const value = [
     {
       type: 'p',
       children: [{ text: 'Start using it right now...' }],
-    }
+    },
 ]
 
 export default value

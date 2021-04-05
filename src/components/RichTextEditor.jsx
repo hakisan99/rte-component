@@ -11,10 +11,11 @@ import defaultValue from '../utils/defaultValue'
 import mentionData from './mention/mentionData'
 import ToolBar from './ToolBar';
 import { handleKey } from './editor-tools/keyUtil';
+import withHtml from '../utils/withHtml';
 
 const RichTextEditor = () => {
   
-  const editor = useMemo(() => withElement(withHistory(withReact(createEditor()))), []);
+  const editor = useMemo(() => withHtml(withElement(withHistory(withReact(createEditor())))), []);
   
   const [value, setValue] = useState(defaultValue);
 
