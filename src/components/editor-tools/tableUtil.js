@@ -139,7 +139,7 @@ export const removeColumn = (editor) => {
       }
     }
   }
-  export const onTab = (editor) => {
+export const onTab = (editor) => {
     //if in a table
     if (tableCheck(editor)) {
         const { selection } = editor
@@ -149,7 +149,7 @@ export const removeColumn = (editor) => {
         if (Node.has(editor, newPath))
             Transforms.select(editor, newPath)
         else {
-            //in this place you need to go to next column
+            //in this place you need to go to next row
             const newRowPath = [...Path.next(newPath.slice(0,2)), 0, 0, 0]
             
             if (Node.has(editor, newRowPath))

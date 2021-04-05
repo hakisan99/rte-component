@@ -164,7 +164,7 @@ export const AddTableButton = ({text, icon}) => {
                 if (!openTable) setOpenTable(true)
                 else setOpenTable(false)
             }}>
-            <Icon icon = {icon} isDisabled={!!tableCheck(editor) || !ReactEditor.isFocused(editor)}/>
+            <Icon icon={icon} isDisabled={!!tableCheck(editor) || !ReactEditor.isFocused(editor)}/>
             <PopupWrapper isOpen={openTable} headline="Table"><TableMatrix handleCreateTable={handleCreateTable} /></PopupWrapper>
         </StyledButton>
     )

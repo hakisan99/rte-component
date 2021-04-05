@@ -58,6 +58,7 @@ export const UL = styled.ul`
     ${generalStyle}
     font-weight: 400;
     margin-left: 2rem;
+    list-style-type: ${props => props.sub ? 'square' : 'circle'};
 `
 export const OL = styled.ol`
     ${generalStyle}
