@@ -55,11 +55,15 @@ export const tableCheck = (editor) => {
     }
   }
 
-export const insertRow = (editor) => {
+export const insertRow = (editor, below = false) => {
     const node = tableCheck(editor);
     if (node) {
       const currentNumCol = node[0].children[0].children.length;
       const colArr = Array.apply(null, Array(currentNumCol));
+      let insertLocation = Editor.parent(editor, editor.selection, { depth: 3 })[1];
+      if (below) {
+        insertLocation[insertLocation.length -1] = insertLocation[insertLocation.length -1] + 1;
+      }
       Transforms.insertNodes(
         editor,
         {
@@ -76,18 +80,24 @@ export const insertRow = (editor) => {
             };
           }),
         },
-        { at: Editor.parent(editor, editor.selection, { depth: 3 })[1] }
+        { at: insertLocation}
       );
     }
   }
 
-export const insertColumn = (editor) => {
+export const insertColumn = (editor, right) => {
     const node = tableCheck(editor);
     if (node) {
       const currentNumRows = node[0].children.length;
+      console.log(Editor.parent(editor, editor.selection, { depth: 4 })[1]);
       for (let i = 0; i < currentNumRows; i += 1) {
         let pos = Editor.parent(editor, editor.selection, { depth: 4 })[1];
+        // Row pos
         pos[1] = i;
+        // Column pos
+        if (right) {
+          pos[pos.length -1 ] = pos[pos.length -1] + 1;
+        }
         Transforms.insertNodes(
           editor,
           {

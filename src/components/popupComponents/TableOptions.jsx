@@ -32,8 +32,10 @@ const TableOptions = ({position, setOpenTableOptions}) => {
   const editor = useSlate();
   return (
     <TableOptionsWrapper style={{top: position.top + 'px', left: position.left + 'px'}}>
-      <TableOption onMouseDown={() => {insertRow(editor); setOpenTableOptions(false)}}>Insert Row</TableOption>
-      <TableOption onMouseDown={() => {insertColumn(editor); setOpenTableOptions(false)}}>Insert Column</TableOption>
+      <TableOption onMouseDown={() => {insertRow(editor); setOpenTableOptions(false)}}>Insert Row Above</TableOption>
+      <TableOption onMouseDown={() => {insertRow(editor, true); setOpenTableOptions(false)}}>Insert Row Below</TableOption>
+      <TableOption onMouseDown={() => {insertColumn(editor); setOpenTableOptions(false)}}>Insert Column Left</TableOption>
+      <TableOption onMouseDown={() => {insertColumn(editor, true); setOpenTableOptions(false)}}>Insert Column Right</TableOption>
       <TableOption onMouseDown={() => {removeRow(editor); setOpenTableOptions(false)}}>Remove Row</TableOption>
       <TableOption onMouseDown={() => {removeColumn(editor); setOpenTableOptions(false)}}>Remove Column</TableOption>
     </TableOptionsWrapper>
