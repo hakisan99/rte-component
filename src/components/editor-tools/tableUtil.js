@@ -1,8 +1,13 @@
 import { Editor, Transforms, Range, Path, Node } from "slate";
+import { ReactEditor } from "slate-react";
 
 export const toggleTable = (editor, row, column) => {
     if (tableCheck(editor)) {
       console.log("Cannot create table inside table")
+      return
+    }
+    if (!ReactEditor.isFocused(editor)) {
+      console.log("Cannot create table when not focused")
       return
     }
 

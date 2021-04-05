@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
-import { useSlate } from "slate-react";
+import { ReactEditor, useSlate } from "slate-react";
 //utils
 import {changeIdentation, getCurrentColor, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
 import {insertColumn, insertRow, removeColumn, removeRow, tableCheck, toggleTable} from './editor-tools/tableUtil'
@@ -158,13 +158,13 @@ export const AddTableButton = ({text, icon}) => {
             setOpenTable(true)
         }
     return (
-        <StyledButton ref={ref} title={text} disabled={!!tableCheck(editor)}
+        <StyledButton ref={ref} title={text} disabled={!!tableCheck(editor) || !ReactEditor.isFocused(editor)}
             onMouseDown={(e) => {
                 e.preventDefault()
                 if (!openTable) setOpenTable(true)
                 else setOpenTable(false)
             }}>
-            <Icon icon = {icon} isDisabled={!!tableCheck(editor)}/>
+            <Icon icon = {icon} isDisabled={!!tableCheck(editor) || !ReactEditor.isFocused(editor)}/>
             <PopupWrapper isOpen={openTable} headline="Table"><TableMatrix handleCreateTable={handleCreateTable} /></PopupWrapper>
         </StyledButton>
     )
