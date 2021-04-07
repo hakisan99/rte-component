@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
 import { ReactEditor, useSlate } from "slate-react";
@@ -13,9 +14,7 @@ import useClickOutside from '../hooks/useClickOutside'
 import FontSizeOptions from './popupComponents/FontSizeOptions'
 import ColorsPanel from './popupComponents/ColorsPanel'
 import theme from '../utils/theme';
-import { getFader } from '../utils/color';
 import PopupWrapper from './popupComponents/PopupWrapper';
-import { Editor, Range } from 'slate';
 
 
 export const MarkButton = ({format, text, icon}) => {
@@ -113,7 +112,7 @@ export const TextColor = ({text = 'Text Color'}) => {
     > 
       <Icon icon={'text-color'} color={getCurrentColor(editor, "color")} />
       <PopupWrapper isOpen={openColorPanel} headline="Color">
-        <ColorsPanel current={getCurrentColor(editor, "color")} type="color" colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>
+        <ColorsPanel current={getCurrentColor(editor, "color")} type="color" colors={Object.keys(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>
         </PopupWrapper>
     </StyledButton>
   )
@@ -125,7 +124,7 @@ export const TextHighlight = ({text = 'Highlight text'}) => {
   const ref = useClickOutside(() => setOpenColorPanel(false));
   const handleSelectTextColor = (value) => () => {
     if (value === "remove") toggleTextStyling(editor, 'highlight', null)
-    else toggleTextStyling(editor, 'highlight', getFader(value, 0.4));
+    else toggleTextStyling(editor, 'highlight', value);
     setOpenColorPanel(false);
   }
   return (
@@ -139,7 +138,7 @@ export const TextHighlight = ({text = 'Highlight text'}) => {
     > 
       <Icon icon={'highlight'} color={getCurrentColor(editor, "highlight")}/>
       <PopupWrapper isOpen={openColorPanel} headline="Highlight">
-        <ColorsPanel current={getCurrentColor(editor, "highlight")} type="highlight" colors={Object.values(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>
+        <ColorsPanel current={getCurrentColor(editor, "highlight")} type="highlight" colors={Object.keys(theme.light.color.text)} handleSelectColor={handleSelectTextColor}/>
       </PopupWrapper>
     </StyledButton>
   )
@@ -148,18 +147,14 @@ export const TextHighlight = ({text = 'Highlight text'}) => {
 export const AddTableButton = ({text, icon}) => {
     const editor = useSlate()
 
-    const isDisabled = (() => {
-      if (!ReactEditor.isFocused(editor))
-        return true
-      else if (tableCheck(editor))
-        return true
-      else {
-        const curNode = Editor.parent(editor, Range.end(editor.selection))
-        if (curNode[0].type === "li")
-          return true
-      }
-      return false 
-    })()
+    const isDisabled = () => {
+        if (!ReactEditor.isFocused(editor)) return true
+        else if (tableCheck(editor)) return true
+        else {
+
+        }
+        return false
+    }
     const [openTable, setOpenTable] = useState(false)
     const ref = useClickOutside(() => setOpenTable(false))
     const handleCreateTable = (e, col, row) => {
@@ -169,18 +164,18 @@ export const AddTableButton = ({text, icon}) => {
                 parseInt(row, 10),
                 parseInt(col, 10)
             );
-            setOpenTable(true)
+            setOpenTable(false)
         }
     return (
         <StyledButton ref={ref} title={text}
             onMouseDown={(e) => {
                 e.preventDefault()
-                if (isDisabled) return
-                
+                if (isDisabled()) return
+
                 if (!openTable) setOpenTable(true)
                 else setOpenTable(false)
             }}>
-            <Icon icon={icon} isDisabled={isDisabled}/>
+            <Icon icon={icon} isDisabled={isDisabled()}/>
             <PopupWrapper isOpen={openTable} headline="Table"><TableMatrix handleCreateTable={handleCreateTable} /></PopupWrapper>
         </StyledButton>
     )

@@ -14,8 +14,8 @@ const ColorsPanelWrapper = styled.div`
 
 const ColorSquare = styled.div`
   flex: 1 0 30%;
-  background-color: ${(props) => props.color};
-  border: 7px solid ${props => props.active ? getDarker(props.color, 50) : "transparent"};
+  background-color: ${(props) => props.theme.color.text[props.color]};
+  border: 7px solid ${props => props.active ? getDarker(props.theme.color.text[props.color], 50) : "transparent"};
   border-radius: 2px;
   //some kind of magic to make it "square"
   &:before {

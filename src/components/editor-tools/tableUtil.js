@@ -51,7 +51,7 @@ export const tableCheck = (editor) => {
       }
       return null;
     }
-  }
+}
 
 export const insertRow = (editor, below = false) => {
     const node = tableCheck(editor);
@@ -148,50 +148,49 @@ export const removeColumn = (editor) => {
       }
     }
   }
-export const onTab = (editor) => {
+export const onTableTab = (editor) => {
     //if in a table
-    if (tableCheck(editor)) {
-        const { selection } = editor
-        const [start] = Range.edges(selection)
-        const newPath = [...Path.next(start.path.slice(0,3)), 0, 0]
-
-        if (Node.has(editor, newPath))
-            Transforms.select(editor, newPath)
-        else {
-            //in this place you need to go to next row
-            const newRowPath = [...Path.next(newPath.slice(0,2)), 0, 0, 0]
-            
-            if (Node.has(editor, newRowPath))
-                Transforms.select(editor, newRowPath)
-            else {
-                //in this place you jump out of table
-                //first we find the next path after the table
-                const nextPath = [...Path.next(newRowPath.slice(0, 1))]
-
-                // if there is a node after table, jump to it, else, create a p, then jump to it
-
-                if (!Node.has(editor, nextPath)) {
-                  const pNode = {type: 'p', children: [{text: ''}]}
-                  Transforms.insertNodes(editor, pNode, {at: nextPath})
-                }
-                Transforms.select(editor, nextPath)
-            }
-        }
-    } 
+    const { selection } = editor
+    const [start] = Range.edges(selection)
+    //find the next cell path
+    const newPath = [...Path.next(start.path.slice(0,3)), 0, 0]
+    //if next cell exists, jump to that cell
+    if (Node.has(editor, newPath))
+        Transforms.select(editor, newPath)
     else {
-        //you're not in a table, you need to check if next node is table
-        //if true, you jump in the first cell
-        const [start] = Range.edges(editor.selection)
-        const newPath = [...Path.next(start.path.slice(0,1))]
         
-        if (Node.has(editor, newPath)) {
-            const node = Editor.node(editor, newPath)
+        const newRowPath = [...Path.next(newPath.slice(0,2)), 0, 0, 0]
+        //if next row cell exists, jump to that cell
+        if (Node.has(editor, newRowPath))
+            Transforms.select(editor, newRowPath)
+        else {
+            //in this place you jump out of table
+            //first we find the next path after the table
+            const nextPath = [...Path.next(newRowPath.slice(0, 1))]
 
-            if (node[0].type === 'table') {
-                const firstCellPath = [...newPath, 0, 0, 0, 0]
-                Transforms.select(editor, firstCellPath)
+            // if there is a node after table, jump to it, else, create a p, then jump to it
+
+            if (!Node.has(editor, nextPath)) {
+              const pNode = {type: 'p', children: [{text: ''}]}
+              Transforms.insertNodes(editor, pNode, {at: nextPath})
             }
+            Transforms.select(editor, nextPath)
         }
     }
+    // else {
+    //     //you're not in a table, you need to check if next node is table
+    //     //if true, you jump in the first cell
+    //     const [start] = Range.edges(editor.selection)
+    //     const newPath = [...Path.next(start.path.slice(0,1))]
+        
+    //     if (Node.has(editor, newPath)) {
+    //         const node = Editor.node(editor, newPath)
+
+    //         if (node[0].type === 'table') {
+    //             const firstCellPath = [...newPath, 0, 0, 0, 0]
+    //             Transforms.select(editor, firstCellPath)
+    //         }
+    //     }
+    // }
 }
 

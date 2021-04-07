@@ -184,3 +184,15 @@ export const escapeBullet = (e, editor) => {
       Transforms.select(editor, nextPath)
     }
 }
+export const bulletCheck = (editor) => {
+  if (editor.selection) {
+    const curNode = Editor.parent(editor, Range.end(editor.selection));
+    if (curNode[0].type === 'li' && Range.isCollapsed(editor.selection)) {
+      return curNode;
+    }
+    return null;
+  }
+}
+export const onBulletTab = (editor) => {
+    console.log("Bullet check: ", bulletCheck(editor))
+}

@@ -1,5 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { getFader } from '../utils/color';
+
+const StyledSpan = styled.span`
+  font-size: ${props => props.fontSize};
+  color: ${props => props.theme.color.text[props.color] || props.theme.color.text.primary};
+  background: ${props => props.background ? getFader(props.theme.color.text[props.background], 0.4) : 'transparent'};
+`
 
 const Leaf = (props) => {
   let { attributes, children, leaf } = props;
@@ -19,7 +27,7 @@ const Leaf = (props) => {
   if (leaf.sup) {
     children = <sup>{children}</sup>
   }
-  return <span style={{fontSize: leaf.fontSize, color: leaf.textColor, backgroundColor: leaf.highlight}} {...attributes}>{children}</span>
+  return <StyledSpan fontSize={leaf.fontSize} color={leaf.textColor} background={leaf.highlight} {...attributes}>{children}</StyledSpan>
 }
 
 Leaf.propTypes = {
