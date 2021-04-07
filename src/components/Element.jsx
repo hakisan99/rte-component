@@ -24,7 +24,7 @@ const Element = (props) => {
     case 'table-row':
       return <TableRow {...attributes}>{children}</TableRow>;
     case 'table-cell':
-      return <StyledTableCell {...attributes}>{children}</StyledTableCell>
+      return <StyledTableCell colSpan={element.colspan} {...attributes}>{children}</StyledTableCell>
     case 'mention':
       return <MentionTag {...attributes}>{element.character}{children}</MentionTag>
     case 'link':

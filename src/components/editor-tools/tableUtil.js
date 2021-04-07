@@ -57,6 +57,7 @@ export const tableCheck = (editor) => {
 
 export const insertRow = (editor, below = false) => {
     const node = tableCheck(editor);
+    console.log(editor)
     if (node) {
       const currentNumCol = node[0].children[0].children.length;
       const colArr = Array.apply(null, Array(currentNumCol));
