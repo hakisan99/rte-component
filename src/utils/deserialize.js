@@ -74,4 +74,4 @@ const deserialize = (el) => {
   return children;
 };
 
-export default deserialize;
+export default deserialize

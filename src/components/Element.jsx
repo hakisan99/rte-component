@@ -20,7 +20,7 @@ const Element = (props) => {
     case 'ol':
       return <OL indentation={element.indentation} {...attributes}>{children}</OL>
     case 'table':
-      return <Table><tbody {...attributes}>{children}</tbody></Table>
+      return <Table attr={attributes}><tbody>{children}</tbody></Table>
     case 'table-row':
       return <TableRow {...attributes}>{children}</TableRow>;
     case 'table-cell':

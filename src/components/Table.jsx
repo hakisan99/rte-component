@@ -4,6 +4,7 @@ import { ReactEditor, useSlate} from 'slate-react';
 import styled from 'styled-components';
 import TableOptions from './popupComponents/TableOptions';
 import { tableCheck } from './editor-tools/tableUtil'
+import useClickOutside from '../hooks/useClickOutside';
 
 //Table Options
 
@@ -12,8 +13,9 @@ const TableWrapper = styled.table`
   margin: 0.5rem 0;
 `;
 // eslint-disable-next-line react/prop-types
-const Table = forwardRef(({attributes, children}, ref) => {
+const Table = ({attr, children}) => {
   const editor = useSlate();
+  const ref = useClickOutside(() => {setOpenTableOptions(false); console.log("Boom")})
   const [openTableOptions, setOpenTableOptions] = useState(false);
   const [tableOptionsPosition, setTableOptionsPosition] = useState({
     top: 0,
@@ -29,16 +31,13 @@ const Table = forwardRef(({attributes, children}, ref) => {
     setTableOptionsPosition({ top: y, left: x });
     setOpenTableOptions(true);
   };
-  useEffect(() => {
-    // Close when click outside of table;
-    setOpenTableOptions(false);
-  }, [editor.selection]);
+
   return (
     <>
-    <TableWrapper onContextMenu={(e) => handleOpenTableOptions(e)} ref={ref} {...attributes}>{children}</TableWrapper>
+    <TableWrapper onContextMenu={(e) => handleOpenTableOptions(e)} ref={ref} {...attr}>{children}</TableWrapper>
     { (openTableOptions && tableCheck(editor)) ? <TableOptions position={tableOptionsPosition} setOpenTableOptions={setOpenTableOptions} /> : null}
     </>
   )
-});
+};
 
 export default Table;

@@ -15,6 +15,7 @@ import ColorsPanel from './popupComponents/ColorsPanel'
 import theme from '../utils/theme';
 import { getFader } from '../utils/color';
 import PopupWrapper from './popupComponents/PopupWrapper';
+import { Editor, Range } from 'slate';
 
 
 export const MarkButton = ({format, text, icon}) => {
@@ -146,6 +147,19 @@ export const TextHighlight = ({text = 'Highlight text'}) => {
 
 export const AddTableButton = ({text, icon}) => {
     const editor = useSlate()
+
+    const isDisabled = (() => {
+      if (!ReactEditor.isFocused(editor))
+        return true
+      else if (tableCheck(editor))
+        return true
+      else {
+        const curNode = Editor.parent(editor, Range.end(editor.selection))
+        if (curNode[0].type === "li")
+          return true
+      }
+      return false 
+    })()
     const [openTable, setOpenTable] = useState(false)
     const ref = useClickOutside(() => setOpenTable(false))
     const handleCreateTable = (e, col, row) => {
@@ -158,13 +172,15 @@ export const AddTableButton = ({text, icon}) => {
             setOpenTable(true)
         }
     return (
-        <StyledButton ref={ref} title={text} disabled={!!tableCheck(editor) || !ReactEditor.isFocused(editor)}
+        <StyledButton ref={ref} title={text}
             onMouseDown={(e) => {
                 e.preventDefault()
+                if (isDisabled) return
+                
                 if (!openTable) setOpenTable(true)
                 else setOpenTable(false)
             }}>
-            <Icon icon={icon} isDisabled={!!tableCheck(editor) || !ReactEditor.isFocused(editor)}/>
+            <Icon icon={icon} isDisabled={isDisabled}/>
             <PopupWrapper isOpen={openTable} headline="Table"><TableMatrix handleCreateTable={handleCreateTable} /></PopupWrapper>
         </StyledButton>
     )

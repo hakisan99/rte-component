@@ -12,7 +12,9 @@ const withElement = editor => {
     }
   
     editor.isVoid = element => {
-      return element.type === 'mention' ? true : isVoid(element)
+      return(
+        element.type === 'mention' ? true : 
+        isVoid(element))
     }
 
     editor.insertText = (text) => {

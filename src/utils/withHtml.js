@@ -9,6 +9,7 @@ const withHtml = (editor) => {
       const htmlString = data.getData('text/html');
       if (htmlString) {
         const html = parser.parseFromString(htmlString, 'text/html');
+        
         const colgroup = html.body.getElementsByTagName('COLGROUP');
         if (colgroup[0]) {
           colgroup[0].remove();

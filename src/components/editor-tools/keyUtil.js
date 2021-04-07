@@ -1,6 +1,6 @@
 import {onTab} from './tableUtil'
 import isHotKey from 'is-hotkey'
-import { toggleMark, changeIndentation, EscapeBullet } from './slateUtil'
+import { toggleMark, changeIndentation, escapeBullet } from './slateUtil'
 //mod is ctrl in windows and cmd on mac
 const isTab = isHotKey('tab')
 const isBold = isHotKey('mod+b')
@@ -29,8 +29,7 @@ export const handleKey = (editor, e) => {
         e.preventDefault()
         changeIndentation(editor, 'decrease')
     } else if (isEnter(e)) {
-        e.preventDefault()
-        EscapeBullet(editor)
+        escapeBullet(e, editor)
     }
 }
 

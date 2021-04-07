@@ -33,6 +33,7 @@ const RichTextEditor = () => {
     keydownFunc(e)
     handleKey(editor, e)
   }
+
   return (
         <StyledContainer >
           <Slate editor={editor} value={value} onChange={onChange}>
@@ -44,36 +45,6 @@ const RichTextEditor = () => {
                 autoFocus
                 spellCheck={false}
                 onKeyDown={handleKeyDown}
-                // Lam sao de biet duoc trong clipboard la copy tu excel ra ???
-                // onPaste={(e) => {
-                //   e.preventDefault()
-                //   var clipText = e.clipboardData.getData('Text');
-                //   const rtf = e.clipboardData.getData('text/html')
-                //   console.log("RTF: ", rtf)
-                //   console.log(e.clipboardData.types)
-                //   clipText = clipText.replace(/"((?:[^"]*(?:\r\n|\n\r|\n|\r))+[^"]+)"/mg, function (match, p1) {
-                //     // This function runs for each cell with multi lined text.
-                //     return p1
-                //         // Replace any double double-quotes with a single
-                //         // double-quote
-                //         .replace(/""/g, '"')
-                //         // Replace all new lines with spaces.
-                //         .replace(/\r\n|\n\r|\n|\r/g, '[NEWLINE]')
-                //     ;
-                //   })
-                  
-                //   let data = []
-                //   clipText.split('\n').forEach(line => {
-                //     if(line) {
-                //       let row = []
-                //       line.split('\t').forEach(cell => {
-                //         row.push(cell.replace("[NEWLINE]", "\n"))
-                //       })
-                //       data.push(row)
-                //     }
-                //   })
-                //   console.log(data)
-                // }}
               />
               <Mention />
             </StyledBody>

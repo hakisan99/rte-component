@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-unreachable */
-import { Editor, Element,   Node,   Range, Transforms } from "slate"
+import { Editor, Element,   Node,   Path,   Range, Transforms } from "slate"
 
 const LIST_TYPES = ['ol', 'ul']
 
@@ -167,13 +168,19 @@ export const wrapLink = (editor, url) => {
 }
 //#endregion 
 
-export const EscapeBullet = (editor) => {
+export const escapeBullet = (e, editor) => {
     const { selection } = editor
     const point = Range.end(selection)
     const curNode = Editor.parent(editor, point)
-    console.log(curNode)
-    // When you press enter on a li and it have no text
+    
+    // When you press enter on a li and it has no text
+    // We delete that li, find the path under the list, add a p, jump to that p
     if (curNode[0].type === "li" && Node.string(curNode[0]) === "") {
-      Transforms.removeNodes()
+      e.preventDefault()
+      const curPath = curNode[1]
+      const nextPath = Path.next(curPath.slice(0, curPath.length - 1))
+      Transforms.removeNodes(editor, {at: curPath})
+      Transforms.insertNodes(editor, {type: 'p', children: [{text: ''}]}, {at: nextPath})
+      Transforms.select(editor, nextPath)
     }
 }

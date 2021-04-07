@@ -2,12 +2,11 @@ import { Editor, Transforms, Range, Path, Node } from "slate";
 import { ReactEditor } from "slate-react";
 
 export const toggleTable = (editor, row, column) => {
-    if (tableCheck(editor)) {
+    const { selection } = editor
+    const point = Range.end(selection)
+    const curNode = Editor.parent(editor, point)
+    if (tableCheck(editor) || curNode[0].type === "li" || !ReactEditor.isFocused(editor)) {
       console.log("Cannot create table inside table")
-      return
-    }
-    if (!ReactEditor.isFocused(editor)) {
-      console.log("Cannot create table when not focused")
       return
     }
 
@@ -27,8 +26,7 @@ export const toggleTable = (editor, row, column) => {
     Transforms.insertNodes(
       editor,
       [
-        { type: 'table', children: tableArr },
-        { type: 'p', children: [{ text: '' }] },
+        { type: 'table', children: tableArr }
       ],
       { match: (n) => Editor.isBlock(editor, n) }
     );
@@ -167,13 +165,22 @@ export const onTab = (editor) => {
                 Transforms.select(editor, newRowPath)
             else {
                 //in this place you jump out of table
-                const nextPath = [...Path.next(newRowPath.slice(0, 1)), 0]
+                //first we find the next path after the table
+                const nextPath = [...Path.next(newRowPath.slice(0, 1))]
+
+                // if there is a node after table, jump to it, else, create a p, then jump to it
+
+                if (!Node.has(editor, nextPath)) {
+                  const pNode = {type: 'p', children: [{text: ''}]}
+                  Transforms.insertNodes(editor, pNode, {at: nextPath})
+                }
                 Transforms.select(editor, nextPath)
             }
         }
     } 
     else {
-        //need to check if next node is table
+        //you're not in a table, you need to check if next node is table
+        //if true, you jump in the first cell
         const [start] = Range.edges(editor.selection)
         const newPath = [...Path.next(start.path.slice(0,1))]
         
