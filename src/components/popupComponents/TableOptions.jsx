@@ -31,7 +31,7 @@ const TableOption = styled.li`
 const TableOptions = ({position, setOpenTableOptions}) => {
   const editor = useSlate();
   return (
-    <TableOptionsWrapper style={{top: position.top + 'px', left: position.left + 'px'}}>
+    <TableOptionsWrapper contentEditable={false} style={{top: position.top + 'px', left: position.left + 'px'}}>
       <TableOption onMouseDown={() => {insertRow(editor); setOpenTableOptions(false)}}>Insert Row Above</TableOption>
       <TableOption onMouseDown={() => {insertRow(editor, true); setOpenTableOptions(false)}}>Insert Row Below</TableOption>
       <TableOption onMouseDown={() => {insertColumn(editor); setOpenTableOptions(false)}}>Insert Column Left</TableOption>

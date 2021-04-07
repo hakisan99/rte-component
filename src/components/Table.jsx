@@ -15,7 +15,7 @@ const TableWrapper = styled.table`
 // eslint-disable-next-line react/prop-types
 const Table = ({attr, children}) => {
   const editor = useSlate();
-  const ref = useClickOutside(() => {setOpenTableOptions(false); console.log("Boom")})
+  const ref = useClickOutside(() => {setOpenTableOptions(false)})
   const [openTableOptions, setOpenTableOptions] = useState(false);
   const [tableOptionsPosition, setTableOptionsPosition] = useState({
     top: 0,
