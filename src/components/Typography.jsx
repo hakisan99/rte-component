@@ -54,18 +54,22 @@ export const HL = styled.mark`
     background-color: ${props => props.background || getFader(props.theme.color.fill.primary)};
     color: ${props => props.color || props.theme.color.text.primary};
 `
-export const UL = styled.ul`
+export const LI = styled.li`
     ${generalStyle}
     font-weight: 400;
-    margin-left: 2rem;
+`
+
+export const UL = styled.ul`
+    ${generalStyle}
+    margin-left: ${props => (props.indentation ? props.indentation * 2 < 0 ? 0 : props.indentation * 2 : 0) + 2}rem;
     list-style-type: ${props => props.sub ? 'square' : 'circle'};
 `
 export const OL = styled.ol`
     ${generalStyle}
-    margin-left: 2rem;
+    margin-left: ${props => (props.indentation ? props.indentation * 2 < 0 ? 0 : props.indentation * 2 : 0) + 2}rem;
     font-weight: 400;
 `
 
-const Typography = {H1, H2, H3, H4, H5, H6, P, HL, UL, OL}
+const Typography = {H1, H2, H3, H4, H5, H6, P, HL, UL, OL, LI}
 
 export default Typography

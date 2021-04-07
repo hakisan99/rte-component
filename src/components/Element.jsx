@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { H4, H5, H3, P, TableRow, MentionTag, StyledTableCell } from './StyledComponents';
-import { OL, UL } from './Typography';
+import { LI, OL, UL } from './Typography';
 import Table from './Table';
 // Element Render
 const Element = (props) => {
@@ -14,11 +14,11 @@ const Element = (props) => {
     case 'h3':
       return <H5 {...attributes} textAlign={element.alignment} indentation={element.indentation}>{children}</H5>;
     case 'li':
-      return <li {...attributes}>{children}</li>
+      return <LI {...attributes}>{children}</LI>
     case 'ul':
-      return <UL {...attributes}>{children}</UL>
+      return <UL indentation={element.indentation} {...attributes}>{children}</UL>
     case 'ol':
-      return <OL {...attributes}>{children}</OL>
+      return <OL indentation={element.indentation} {...attributes}>{children}</OL>
     case 'table':
       return <Table><tbody {...attributes}>{children}</tbody></Table>
     case 'table-row':

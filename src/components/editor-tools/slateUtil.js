@@ -1,4 +1,5 @@
-import { Editor, Element, Range, Transforms } from "slate"
+/* eslint-disable no-unreachable */
+import { Editor, Element,   Node,   Range, Transforms } from "slate"
 
 const LIST_TYPES = ['ol', 'ul']
 
@@ -53,7 +54,7 @@ export const toggleBlock = (editor, format) => {
     split: true,
   })
   const newProperties = {
-    type: isActive ? 'paragraph' : isList ? 'li' : format,
+    type: isActive ? 'p' : isList ? 'li' : format,
   }
   Transforms.setNodes(editor, newProperties)
 
@@ -72,6 +73,7 @@ export const isAlignmentActive = (editor, format) => {
   return !!match
 }
 export const toggleAlignment = (editor, format) => {
+
     Transforms.setNodes(
       editor,
       { alignment: format },
@@ -81,19 +83,41 @@ export const toggleAlignment = (editor, format) => {
 //#endregion
 
 //#region INDENTATION UTIL
-export const getCurrentIdentation = (editor) => {
+export const getCurrentIndentation = (editor, location = null) => {
+    if (location) {
+      const [match] = Editor.nodes(editor, {
+        at: location,
+        match: n => !Editor.isEditor(n) && Element.isElement(n)
+      })
+      return match[0].indentation ? match[0].indentation : 0;
+    }
     const [match] = Editor.nodes(editor, {
         match: n => !Editor.isEditor(n) && Element.isElement(n)
     })
     return match[0].indentation ? match[0].indentation : 0;
 }
 
-export const changeIdentation = (editor, format) => {
-    Transforms.setNodes(
-      editor,
-      { indentation: (getCurrentIdentation(editor) > 0 ? getCurrentIdentation(editor) : 0)  + (format === 'increase' ? 1 : -1)},
-      { match: (n) => Editor.isBlock(editor, n) }
-    )
+export const changeIndentation = (editor, format) => {
+    const { selection } = editor
+    const point = Range.end(selection)
+    const curNode = Editor.parent(editor, point)
+    if (curNode[0].type === "li") {
+        
+        const parentNode = Editor.parent(editor, curNode[1])
+        Transforms.setNodes(
+          editor,
+          { indentation: (getCurrentIndentation(editor, parentNode[1].slice(0, 1)) > 0 ? getCurrentIndentation(editor,  parentNode[1].slice(0, 1)) : 0)  + (format === 'increase' ? 1 : -1)},
+          { at: parentNode[1].slice(0, 1)}
+        )
+        console.log(parentNode[1].slice(0, 1))
+    } else {
+      Transforms.setNodes(
+        editor,
+        { indentation: (getCurrentIndentation(editor) > 0 ? getCurrentIndentation(editor) : 0)  + (format === 'increase' ? 1 : -1)},
+        { match: (n) => Editor.isBlock(editor, n)}
+      )
+    }
+
 }
 //#endregion 
 
@@ -142,3 +166,14 @@ export const wrapLink = (editor, url) => {
   }
 }
 //#endregion 
+
+export const EscapeBullet = (editor) => {
+    const { selection } = editor
+    const point = Range.end(selection)
+    const curNode = Editor.parent(editor, point)
+    console.log(curNode)
+    // When you press enter on a li and it have no text
+    if (curNode[0].type === "li" && Node.string(curNode[0]) === "") {
+      Transforms.removeNodes()
+    }
+}

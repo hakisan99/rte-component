@@ -47,8 +47,9 @@ const RichTextEditor = () => {
                 // onPaste={(e) => {
                 //   e.preventDefault()
                 //   var clipText = e.clipboardData.getData('Text');
+                //   const rtf = e.clipboardData.getData('text/html')
+                //   console.log("RTF: ", rtf)
                 //   console.log(e.clipboardData.types)
-                //   console.log(ClipboardEvent.clipboardData)
                 //   clipText = clipText.replace(/"((?:[^"]*(?:\r\n|\n\r|\n|\r))+[^"]+)"/mg, function (match, p1) {
                 //     // This function runs for each cell with multi lined text.
                 //     return p1

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { ReactEditor, useSlate } from "slate-react";
 //utils
-import {changeIdentation, getCurrentColor, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
+import {changeIndentation, getCurrentColor, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
 import {insertColumn, insertRow, removeColumn, removeRow, tableCheck, toggleTable} from './editor-tools/tableUtil'
 //components
 import { StyledButton } from "./StyledComponents"
@@ -53,9 +53,9 @@ export const AlignButton = ({format, text, icon}) => {
 export const IndenButton = ({format, text, icon}) => {
     const editor = useSlate()
     return (
-        <StyledButton title={text}  active={isAlignmentActive(editor, format)} onMouseDown={e => {
+        <StyledButton title={text}  onMouseDown={e => {
             e.preventDefault()
-            changeIdentation(editor, format)
+            changeIndentation(editor, format)
         }}>
             <Icon icon = {icon}/>
         </StyledButton>
