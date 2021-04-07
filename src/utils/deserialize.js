@@ -36,7 +36,7 @@ const deserialize = (el) => {
       }
     }
     if (el.textContent.match(/^[\s]*$/gm)) {
-      return null
+      return null;
     }
     return el.textContent.replace(/\n/g, '');
   } else if (el.nodeType !== 1) {
