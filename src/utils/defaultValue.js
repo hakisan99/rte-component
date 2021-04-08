@@ -7,6 +7,11 @@ const value = [
       type: 'p',
       children: [{ text: 'Start using it right now...' , textColor: 'secondary'}],
     },
+    {
+      type: 'link',
+      children: [{text: 'Link'}],
+      url: 'https://stackedhomes.com/'
+    }
 ]
 
 export default value
