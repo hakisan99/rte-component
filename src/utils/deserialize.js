@@ -29,6 +29,10 @@ const TEXT_TAGS = {
 
 const deserialize = (el) => {
   if (el.nodeType === 3) {
+    // Issue: Pasting list-item from Teams sometimes result in empty item, this is needed to paste it properly (dont know why pasting list item result in a different list-style)
+    if (el.parentNode.nodeName === 'LI') {
+      return el.textContent;
+    }
     // Excel paste structure
     if (el.parentNode.nodeName === 'P') {
       if (el.parentNode.parentNode.nodeName === 'TD') {

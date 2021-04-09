@@ -22,7 +22,7 @@ const withHtml = (editor) => {
       }
       const fragment = deserialize(html.body);
       console.log(fragment);
-      Transforms.insertNodes(editor, fragment, { mode: 'lowest', voids: true });
+      Transforms.insertNodes(editor, fragment);
       return;
     }
     insertData(data);
