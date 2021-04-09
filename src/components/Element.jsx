@@ -28,7 +28,6 @@ const Element = (props) => {
     case 'mention':
       return <MentionTag {...attributes}>{element.character}{children}</MentionTag>
     case 'link':
-      console.log(attributes)
       return <a {...attributes} href={element.url} target='_blank' rel='noreferrer'>{children}</a>
     default:
       return <P textAlign={element.alignment} indentation={element.indentation} {...attributes}>{children}</P>

@@ -29,10 +29,16 @@ const TEXT_TAGS = {
 
 const deserialize = (el) => {
   if (el.nodeType === 3) {
-    console.log(el);
+    // Excel paste structure
     if (el.parentNode.nodeName === 'P') {
       if (el.parentNode.parentNode.nodeName === 'TD') {
         return el.textContent;
+      }
+    }
+    // Word paste structure
+    if (el.parentNode.nodeName === 'O:P') {
+      if (el.parentNode.parentNode.nodeName === 'P') {
+        return el.textContent
       }
     }
     if (el.textContent.match(/^[\s]*$/gm)) {

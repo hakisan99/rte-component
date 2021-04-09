@@ -1,6 +1,5 @@
-import { Transforms } from "slate";
-import deserialize from "./deserialize";
-
+import { Transforms } from 'slate';
+import deserialize from './deserialize';
 
 const withHtml = (editor) => {
   const { insertData } = editor;
@@ -22,7 +21,8 @@ const withHtml = (editor) => {
         }
       }
       const fragment = deserialize(html.body);
-      Transforms.insertNodes(editor, fragment);
+      console.log(fragment);
+      Transforms.insertNodes(editor, fragment, { mode: 'lowest', voids: true });
       return;
     }
     insertData(data);
@@ -30,4 +30,4 @@ const withHtml = (editor) => {
   return editor;
 };
 
-export default withHtml
+export default withHtml;
