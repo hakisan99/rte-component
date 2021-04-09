@@ -3,10 +3,10 @@
 import React, { useState } from 'react'
 import { ReactEditor, useSlate } from "slate-react";
 //utils
-import {changeIndentation, getCurrentColor, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling} from './editor-tools/slateUtil'
+import {changeIndentation, getCurrentColor, isAlignmentActive, isBlockActive, isMarkActive, toggleAlignment, toggleBlock, toggleMark, toggleTextStyling, wrapLink} from './editor-tools/slateUtil'
 import {insertColumn, insertRow, removeColumn, removeRow, tableCheck, toggleTable} from './editor-tools/tableUtil'
 //components
-import { StyledButton } from "./StyledComponents"
+import { InsertLinkModal, StyledButton, StyledInput, StyledInputLabel } from "./StyledComponents"
 import Icon from './Icon'
 import TableMatrix from './popupComponents/TableMatrix'
 //hook
@@ -15,7 +15,6 @@ import FontSizeOptions from './popupComponents/FontSizeOptions'
 import ColorsPanel from './popupComponents/ColorsPanel'
 import theme from '../utils/theme';
 import PopupWrapper from './popupComponents/PopupWrapper';
-
 
 export const MarkButton = ({format, text, icon}) => {
     const editor = useSlate()
@@ -197,4 +196,41 @@ export const TableButton = ({format, text}) => {
             {text}
         </StyledButton>
     )
+}
+// Not sure how to get selection after inputing url
+export const InsertLink = ({text, icon}) => {
+  const [open, setModal] = useState(true);
+  const editor = useSlate();
+  const [linkInfo, setLink] = useState({displayText: '', link: ''});
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLink({...linkInfo, [name]: value})
+  };
+  const handleInsert = () => {
+    wrapLink(editor, linkInfo.link, linkInfo.displayText);
+  }
+  const ref = useClickOutside(() => setModal(false));
+  return (
+    <div ref={ref}>
+      <StyledButton  title={text} onMouseDown={() => setModal(!open)}>
+        <Icon icon={icon} />
+      </StyledButton>
+      {open && (
+        <InsertLinkModal>
+          <StyledInputLabel
+            value={linkInfo.displayText}
+            onChange={handleChange}
+          >
+            Display text
+            <StyledInput />
+          </StyledInputLabel>
+          <StyledInputLabel value={linkInfo.link} onChange={handleChange}>
+            Link to Insert
+            <StyledInput />
+          </StyledInputLabel>
+          <StyledButton onClick={handleInsert}>Insert</StyledButton>
+        </InsertLinkModal>
+      )}
+    </div>
+  );
 }

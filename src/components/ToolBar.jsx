@@ -2,7 +2,7 @@ import React from 'react'
 import {StyledToolbar, VerticalLine} from './StyledComponents';
 import ThemeContext from './ThemeContext';
 import Toggle from './Toggle';
-import { AlignButton, BlockButton, IndenButton, MarkButton, AddTableButton, FontSizeButton, TextColor, TextHighlight } from './ToolbarButtons';
+import { AlignButton, BlockButton, IndenButton, MarkButton, AddTableButton, FontSizeButton, TextColor, TextHighlight, InsertLink } from './ToolbarButtons';
 
 const ToolBar = () => {
     let themeContext = ThemeContext.useContainer()
@@ -31,6 +31,8 @@ const ToolBar = () => {
             <AlignButton format="justify" text="Align Justify" icon="align-justify"/>
             <VerticalLine />
             <AddTableButton text="Add Table" icon="table" />
+            <VerticalLine />
+            <InsertLink text="Insert Link" icon="link" />
             {/* <TableButton format="insert-row" text="Insert Row" />
             <TableButton format="insert-column" text="Insert Column" />
             <TableButton format="remove-row" text="Remove Row" />

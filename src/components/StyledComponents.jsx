@@ -48,6 +48,31 @@ export const MentionTag = styled.span`
   display: inline-block;
   color: ${props => props.theme.color.text.info};
 `
+export const InsertLinkModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 160px;
+  min-width: 160px;
+  height: 144px;
+  border-radius: 8px;
+  background-color: ${(props) => props.theme.color.background.secondary};
+  color: ${props => props.theme.color.text.primary};
+  box-shadow: ${(props) => props.theme.shadow};
+`
+export const StyledInputLabel = styled.div`
+  text-align: left;
+  color: ${props => props.theme.color.text.primary};
+  font-weight: bold;
+  padding: 0.5em 0.6em;
+`
+export const StyledInput = styled.input`
+  width: 100%;
+  min-height: 24px;
+  border-radius: 4px;
+` 
+
 import {H1, H2, H3, H4, H5, H6, P, HL} from './Typography'
 
 export {H1, H2, H3, H4, H5, H6, P, HL}

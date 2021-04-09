@@ -147,16 +147,15 @@ export const unwrapLink = (editor) => {
     match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link'
   })
 }
-export const wrapLink = (editor, url) => {
+export const wrapLink = (editor, url, text) => {
   if (isLinkActive(editor))
     unwrapLink(editor)
-  
   const {selection} = editor
   const isCollapsed = selection && Range.isCollapsed(selection)
   const link = {
     type: 'link',
     url: url,
-    children: isCollapsed ? [{text: url}] : []
+    children: isCollapsed ? [{text: text}] : []
   }
 
   if (isCollapsed)
